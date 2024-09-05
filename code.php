@@ -4,16 +4,28 @@ include('Security.php');
 if(isset($_POST['login_btn'])) {
     $email_login = $_POST['emaill'];
     $password_login = $_POST['passwordd'];
+    $user_type = $_POST['user_type'];
 
-    $query = "SELECT * FROM register WHERE email = '$email_login' AND password = '$password_login' ";
+    if ($user_type == 'admin') {
+        $query = "SELECT * FROM admintb WHERE email = '$email_login' AND password = '$password_login' ";
+    } 
+    // Check if regular user is logging in
+    else if ($user_type == 'resto') {
+        $query = "SELECT * FROM restaurantadmintb WHERE email = '$email_login' AND password = '$password_login' ";
+    }
+
     $query_run = mysqli_query($connection, $query);
 
-    if(mysqli_fetch_array($query_run))
-    {         
+    if(mysqli_fetch_array($query_run)) {         
         $_SESSION['username'] = $email_login;
-        header('Location: index.php?status=success-logged-in=homepage');
 
-    }else {
+        // Redirect to admin or user home page
+        if ($user_type == 'admin') {
+            header('Location: index.php?status=success-logged-in');
+        } else if ($user_type == 'resto') {
+            header('Location: restaurant_dashboard.php?status=success-logged-in');
+        }
+    } else {
         $_SESSION['status'] = '<h4>INVALID INPUT</h4>';
         header('Location: login.php?login_attempt=failed=try_again');
     }
@@ -89,7 +101,7 @@ if(isset($_POST['registerbtn']))
 
         if($password === $cpassword)
         {
-            $query = "INSERT INTO register (username,email,password) VALUES ('$username','$email','$password')";
+            $query = "INSERT INTO admintb (username,email,password) VALUES ('$username','$email','$password')";
             $query_run = mysqli_query($connection, $query);
             
             if($query_run)
@@ -126,7 +138,7 @@ if(isset($_POST['registerbtn']))
 
     if($password === $cpassword)
         {
-            $query = "INSERT INTO customer (lastname,firstname,email,password) VALUES ('$lastname','$firstname','$email','$password')";
+            $query = "INSERT INTO customertb (lastname,firstname,email,password) VALUES ('$lastname','$firstname','$email','$password')";
             $query_run = mysqli_query($connection, $query);
             
             
@@ -138,7 +150,7 @@ if(isset($_POST['registerbtn']))
             }
             else 
             {
-                $_SESSION['status'] = "<h4>NEW CUSTOMER NOT ADDED</h4>";
+                $_SESSION['status'] = "<h4>CUSTOMER NOT ADDED</h4>";
                 $_SESSION['status_code'] = "error";
                 header('Location: Customer.php?new_customer_data=failed==to_add');  
             }
@@ -154,23 +166,22 @@ if(isset($_POST['registerbtn']))
 
     if(isset($_POST['productbtn1']))
 {
-    $product = $_POST['product'];
-    $price = $_POST['price'];
-    $quantity = $_POST['quantity'];
+    $restaurant_name = $_POST['restaurant_name'];
+    $adrress = $_POST['address'];
 
         {
-            $query = "INSERT INTO product (product,price,quantity) VALUES ('$product','$price','$quantity')";
-            $query_run = mysqli_query($connection, $query);
+            $query1 = "INSERT INTO restauranttb (restaurant_name, address) VALUES ('$restaurant_name', '$address')";
+            $query_run = mysqli_query($connection, $query1);
             
             if($query_run)
             {
-                $_SESSION['success'] = "<h4>NEW PRODUCT ADDED</h4>";
+                $_SESSION['success'] = "<h4>NEW RESTAURANT ADDED</h4>";
                 $_SESSION['status_code'] = "success";
                 header('Location: Product.php?new_product_data=succefully==added');
             }
             else 
             {
-                $_SESSION['status'] = "<h4>NEW PRODUCT NOT ADDED</h4>";
+                $_SESSION['status'] = "<h4>NEW RESTAURANT NOT ADDED</h4>";
                 $_SESSION['status_code'] = "error";
                 header('Location: Product.php?new_product_data=failed==to_add');  
             }
@@ -186,7 +197,7 @@ if(isset($_POST['registerbtn']))
         $email = $_POST['edit_email'];
         $password = $_POST['edit_password'];
     
-        $query = "UPDATE register SET username='$username', email='$email', password='$password' WHERE id='$id' ";
+        $query = "UPDATE admintb SET username='$username', email='$email', password='$password' WHERE id='$id' ";
         $query_run = mysqli_query($connection, $query);
     
         if($query_run)
@@ -237,13 +248,13 @@ if(isset($_POST['registerbtn']))
         $edit_price = $_POST['edit_price'];
         $edit_quantity = $_POST['edit_quantity'];
     
-        $query = "UPDATE product SET product='$edit_product', price='$edit_price', quantity='$edit_quantity' WHERE id='$id' ";
+        $query = "UPDATE restauranttb SET restaurant_name='$edit_product', address='$edit_price' WHERE id='$id' ";
         $query_run = mysqli_query($connection, $query);
     
         if($query_run)
         {
             $_SESSION['success'] = "<h4>YOUR PRODUCT IS UPDATED</h4>";
-            header('Location: Product.php?product_data=succefully=updated'); 
+            header('Location: Restaurant.php?product_data=succefully=updated'); 
         }
         else
         {
@@ -278,7 +289,7 @@ if(isset($_POST['registerbtn']))
     if(isset($_POST['customerdeletebtn'])) {
         $id = $_POST['customerdelete_id1'];
 
-        $query = "DELETE FROM customer WHERE id = '$id' ";
+        $query = "DELETE FROM customertb WHERE id = '$id' ";
         $query_run = mysqli_query($connection, $query);
 
         if($query_run){

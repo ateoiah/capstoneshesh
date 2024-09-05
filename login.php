@@ -6,9 +6,8 @@ session_start();
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                <h2 class="text-center">GERVACIO'S MARBLE STORE</h2>
+                <h2 class="text-center">EatEase</h2>
                 <hr>
-                    <h1 class="h4 text-center text-primary">Admin Login</h1>
                     <?php
                     if(isset($_SESSION['status']) && $_SESSION['status'] !='') {
                         echo '<div class="alert alert-danger">'.$_SESSION['status'].'</div>';
@@ -23,6 +22,12 @@ session_start();
                         <div class="form-group">
                         <label>Password</label>
                             <input type="password" name="passwordd" class="form-control" placeholder="Password" required>
+                        </div>
+                        <div>
+                            <select name="user_type" id="user_type">
+                                <option value="admin">Admin</option>
+                                <option value="resto">Resto Owner</option>
+                            </select>
                         </div>
                         <button type="submit" name="login_btn" class="btn btn-primary float-right" style="width: 180px;">Login</button>
                     </form>

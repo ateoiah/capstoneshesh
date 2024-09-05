@@ -18,7 +18,7 @@ include('includes/navbar.php');
                             if ($connection->connect_error) {
                                 die("Failed". $connection->connect_error. $connection->connect_error);
                             }
-                            $query = "SELECT COUNT(id) AS total_admin FROM register";
+                            $query = "SELECT COUNT(id) AS total_admin FROM admintb";
                             $result = $connection->query($query);
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_assoc();
@@ -39,12 +39,12 @@ include('includes/navbar.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Marble Product</div>
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Registered Restaurant</div>
                             <?php
                             if ($connection->connect_error) {
                                 die("Failed". $connection->connect_error. $connection->connect_error);
                             }
-                            $query = "SELECT COUNT(id) AS total_product FROM product";
+                            $query = "SELECT COUNT(id) AS total_product FROM restauranttb";
                             $result = $connection->query($query);
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_assoc();
@@ -65,14 +65,14 @@ include('includes/navbar.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">TOTAL CUSTOMER</div>
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Registered Customer</div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
                             <?php
                                 if ($connection->connect_error) {
                                 die("Failed". $connection->connect_error. $connection->connect_error);
                             }
-                            $query = "SELECT COUNT(id) AS total_customer FROM customer";
+                            $query = "SELECT COUNT(id) AS total_customer FROM customertb";
                             $result = $connection->query($query);
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_assoc();
@@ -90,7 +90,7 @@ include('includes/navbar.php');
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mb-4">
+        <!-- <div class="col-xl-3 col-md-6 mb-4">
             <div class="card bg-warning text-white shadow">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -103,7 +103,7 @@ include('includes/navbar.php');
                           </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>   
 </div>

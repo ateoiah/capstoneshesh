@@ -12,20 +12,20 @@ include('includes/navbar.php');
             if (!empty($_GET['query'])) {
                 $search = $_GET['query'];
 
-                $query_admin = "SELECT * FROM register 
+                $query_admin = "SELECT * FROM admintb 
                                    WHERE username LIKE '%$search%' 
                                    OR email LIKE '%$search%'";
 
                 $result_admin = mysqli_query($connection, $query_admin);
 
-                $query_customer = "SELECT * FROM customer
+                $query_customer = "SELECT * FROM customertb
                 WHERE lastname LIKE '%$search%' OR firstname LIKE '%$search%'
                 OR email LIKE '%$search%'";
 
                 $result_customer = mysqli_query($connection, $query_customer);
 
-                $query_product = "SELECT * FROM product 
-                                  WHERE product LIKE '%$search%'";
+                $query_product = "SELECT * FROM restauranttb 
+                                  WHERE restaurant_name LIKE '%$search%'";
 
                 $result_product = mysqli_query($connection, $query_product);
             ?>
@@ -149,9 +149,8 @@ include('includes/navbar.php');
                                 <thead>
                                     <tr>
                                         <th>ID </th>
-                                        <th>PRODUCT </th>
-                                        <th>PRICE </th>
-                                        <th>QUANTITY </th>
+                                        <th>RESTAURANT </th>
+                                        <th>ADRRESS </th>
                                         <th>EDIT </th>
                                         <th>DELETE </th>
                                     </tr>

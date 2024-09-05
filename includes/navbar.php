@@ -2,12 +2,9 @@
    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
-  <div class="sidebar-brand-icon rotate-n-15">
-    <img class="img-profile rounded-circle" src="includes/1.png" width="50" height="50">
-  </div>
-  <div class="sidebar-brand-text mx-1">Gervacio's&nbsp;<sup style="font-size: x-small;">marble</sup></div>
-</a>
+<ul class="sidebar-brand d-flex align-items-center justify-content-center" >
+  <div class="sidebar-brand-icon mx-3">EatEase</sup></div>
+  </ul>
 
 
 
@@ -41,9 +38,9 @@
 </li>
 
 <li class="nav-item">
-  <a class="nav-link" href="Product.php">
+  <a class="nav-link" href="Restaurant.php">
     <i class="fas fa-fw fa-chart-area"></i>
-    <span>Product</span></a>
+    <span>Restaurant</span></a>
 </li>
 
 <!-- Divider -->
@@ -136,7 +133,7 @@
                <?php echo $_SESSION['username']?>
       
                 </span>
-                <img class="img-profile rounded-circle" src="includes/1.png">
+               
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

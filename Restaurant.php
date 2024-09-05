@@ -8,7 +8,7 @@ include('includes/navbar.php');
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Marble Product</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add Restaurant</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -16,17 +16,17 @@ include('includes/navbar.php');
 <form action="code.php" method="POST">
   <div class="modal-body">
     <div class="form-group">
-      <label for="product">Product</label>
-      <input type="text" name="product" class="form-control" id="product" placeholder="Enter Product" required>
+      <label for="product">Name</label>
+      <input type="text" name="restaurant_name" class="form-control" id="name" placeholder="Enter Restaurant" required>
     </div>
     <div class="form-group">
-      <label for="price">Price</label>
-      <input type="text" name="price" class="form-control" id="price" placeholder="Enter Price" required>
+      <label for="price">Adrress</label>
+      <input type="text" name="address" class="form-control" id="adrress" placeholder="Enter Adrress" required>
     </div>
-    <div class="form-group">
+     <!-- <div class="form-group">
       <label for="quantity">Quantity</label>
       <input type="text" name="quantity" class="form-control" id="quantity" placeholder="Enter Quantity" required>
-    </div>
+    </div> -->
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -41,9 +41,9 @@ include('includes/navbar.php');
 
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Product List
+    <h6 class="m-0 font-weight-bold text-primary">Restaurants Data
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addadminprofile">
-        Add Marble Product 
+        Add Restaurant 
       </button>
     </h6>
   </div>
@@ -65,7 +65,7 @@ include('includes/navbar.php');
     <div class="table-responsive">
     
     <?php        
-        $query = "SELECT * FROM product";
+        $query = "SELECT * FROM restauranttb";
         $query_run = mysqli_query($connection, $query);
     ?>
 
@@ -73,9 +73,8 @@ include('includes/navbar.php');
         <thead class="thead-dark">
           <tr>
             <th>ID </th>
-            <th>Product </th>
-            <th>Price </th>
-            <th>Quantity </th>
+            <th>Restaurant Name </th>
+            <th>Adrress </th>
             <th>EDIT </th>
             <th>DELETE </th>
           </tr>
@@ -90,9 +89,8 @@ include('includes/navbar.php');
 
           <tr>
             <td> <?php echo $row['id']; ?></td>
-            <td> <?php echo $row['product']; ?></td>
-            <td> <?php echo $row['price']; ?></td>
-            <td> <?php echo $row['quantity']; ?></td>
+            <td> <?php echo $row['restaurant_name']; ?></td>
+            <td> <?php echo $row['address']; ?></td>
 
             <td>
                 <form action="Product_edit.php" method="post">

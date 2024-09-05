@@ -15,7 +15,7 @@ include('includes/navbar.php');
         {
             $id = $_POST['edit_id'];
 
-            $query = "SELECT * FROM register WHERE id = '$id'";
+            $query = "SELECT * FROM admintb WHERE id = '$id'";
             $query_run = mysqli_query($connection, $query);
 
             foreach($query_run as $row)

@@ -10677,6 +10677,7 @@ a:focus {
   animation-timing-function: opacity cubic-bezier(0, 1, 0.4, 1);
 }
 
+
 .bg-gradient-success {
   background-color: #1cc88a;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(10%, #1cc88a), to(#13855c));
@@ -11374,8 +11375,14 @@ a:focus {
   color: #6e707e;
 }
 
+.bg-gradient-primary {
+    background-color: #4e73df;
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(10%,#4e73df),to(#224abe));
+    background-image: linear-gradient(180deg,FA4A0C 10%,#224abe 100%);
+    background-size: cover
+}
 .sidebar-light #sidebarToggle {
-  background-color: #eaecf4;
+  background-color: #FA4A0C;
 }
 
 .sidebar-light #sidebarToggle::after {

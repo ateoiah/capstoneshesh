@@ -15,7 +15,7 @@ include('includes/navbar.php');
         {
             $id = $_POST['edit_id1'];
 
-            $query = "SELECT * FROM product WHERE id = '$id'";
+            $query = "SELECT * FROM restauranttb WHERE id = '$id'";
             $query_run = mysqli_query($connection, $query);
 
             foreach($query_run as $row)
@@ -28,19 +28,19 @@ include('includes/navbar.php');
 
                     <div class="form-group">
                         <label> Product </label>
-                        <input type="text" name="edit_product" value="<?php echo $row['product'] ?>" class="form-control"
+                        <input type="text" name="edit_product" value="<?php echo $row['restaurant_name'] ?>" class="form-control"
                             placeholder="Enter Username">
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
-                        <input type="text" name="edit_price" value="<?php echo $row['price'] ?>" class="form-control"
+                        <label>Adrress</label>
+                        <input type="text" name="edit_price" value="<?php echo $row['address'] ?>" class="form-control"
                             placeholder="Enter Email">
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Qantity</label>
                         <input type="text" name="edit_quantity" value="<?php echo $row['quantity'] ?>"
                             class="form-control" placeholder="Enter Password">
-                    </div>
+                    </div> -->
 
                     <a href="javascript:history.back()" class="btn btn-danger">CANCEL</a>
                     <button type="submit" name="updatebtn1" class="btn btn-primary"> Update </button>
