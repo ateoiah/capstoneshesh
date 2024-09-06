@@ -24,10 +24,11 @@ session_start();
                             <input type="password" name="passwordd" class="form-control" placeholder="Password" required>
                         </div>
                         <div>
-                            <select name="user_type" id="user_type">
-                                <option value="admin">Admin</option>
-                                <option value="resto">Resto Owner</option>
-                            </select>
+                            <label>User Type:</label>
+                            <input type="radio" id="admin" name="user_type" value="admin" required>
+                            <label for="admin">Admin</label>
+                            <input type="radio" id="resto" name="user_type" value="resto">
+                            <label for="resto">Restaurant Admin</label><br>
                         </div>
                         <button type="submit" name="login_btn" class="btn btn-primary float-right" style="width: 180px;">Login</button>
                     </form>

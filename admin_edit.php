@@ -37,9 +37,8 @@ include('includes/navbar.php');
                             placeholder="Enter Email">
                     </div>
                     <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" name="edit_password" value="<?php echo $row['password'] ?>"
-                            class="form-control" placeholder="Enter Password">
+                        <label>New Password</label>
+                        <input type="password" name="edit_password" class="form-control" placeholder="Enter New Password">
                     </div>
 
                     <a href="javascript:history.back()" class="btn btn-danger">CANCEL</a>

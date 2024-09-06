@@ -1,35 +1,57 @@
 <?php
 include('Security.php');
 
-if(isset($_POST['login_btn'])) {
+
+if (isset($_POST['login_btn'])) {
     $email_login = $_POST['emaill'];
     $password_login = $_POST['passwordd'];
     $user_type = $_POST['user_type'];
 
+    // Initialize the query based on the user type
     if ($user_type == 'admin') {
-        $query = "SELECT * FROM admintb WHERE email = '$email_login' AND password = '$password_login' ";
-    } 
-    // Check if regular user is logging in
-    else if ($user_type == 'resto') {
-        $query = "SELECT * FROM restaurantadmintb WHERE restaurant_admin_email = '$email_login' AND restaurant_admin_password = '$password_login' ";
+        $query = "SELECT * FROM admintb WHERE email = '$email_login' LIMIT 1";
+    } else if ($user_type == 'resto') {
+        $query = "SELECT * FROM restaurantadmintb WHERE restaurant_admin_email = '$email_login' LIMIT 1";
     }
 
+    // Execute the query
     $query_run = mysqli_query($connection, $query);
 
-    if(mysqli_fetch_array($query_run)) {         
-        $_SESSION['username'] = $email_login;
-
-        // Redirect to admin or user home page
+    // Check if user exists
+    if (mysqli_num_rows($query_run) > 0) {
+        $row = mysqli_fetch_assoc($query_run);
+        
+        // Get the hashed password from the database
         if ($user_type == 'admin') {
-            header('Location: index.php?status=success-logged-in');
+            $hashed_password = $row['password']; // For admin
         } else if ($user_type == 'resto') {
-            header('Location: restaurant_dashboard.php?status=success-logged-in');
+            $hashed_password = $row['restaurant_admin_password']; // For restaurant admin
+        }
+
+        // Verify the entered password with the hashed password from the database
+        if (password_verify($password_login, $hashed_password)) {
+            // Password is correct
+            $_SESSION['username'] = $email_login;
+
+            // Redirect to the appropriate dashboard based on user type
+            if ($user_type == 'admin') {
+                header('Location: index.php?status=success-logged-in');
+            } else if ($user_type == 'resto') {
+                header('Location: restaurant_dashboard.php?status=success-logged-in');
+            }
+        } else {
+            // Incorrect password
+            $_SESSION['status'] = '<h4>Incorrect password</h4>';
+            header('Location: login.php?login_attempt=failed=try_again');
         }
     } else {
-        $_SESSION['status'] = '<h4>INVALID INPUT</h4>';
+        // User not found
+        $_SESSION['status'] = '<h4>User not found</h4>';
         header('Location: login.php?login_attempt=failed=try_again');
     }
 }
+
+
 if(isset($_POST['logout_btn'])) {
     unset($_SESSION['username']);
         session_destroy();
@@ -92,42 +114,42 @@ if(isset($_POST['signupbtn']))
     }
 
 
-if(isset($_POST['registerbtn']))
-{
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $cpassword = $_POST['confirmpassword'];
 
-        if($password === $cpassword)
-        {
-            $query = "INSERT INTO admintb (username,email,password) VALUES ('$username','$email','$password')";
-            $query_run = mysqli_query($connection, $query);
+    if (isset($_POST['registerbtn'])) {
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $cpassword = $_POST['confirmpassword'];
+    
+        // Check if passwords match
+        if ($password === $cpassword) {
             
-            if($query_run)
-            {
-                $_SESSION['success'] = "<h4>NEW ADMIN ADDED<h4>";
+            // Hash the password before storing it
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+    
+            // Prepare the query to insert the data into the database with hashed password
+            $query = "INSERT INTO admintb (username, email, password) VALUES ('$username', '$email', '$hashed_password')";
+            $query_run = mysqli_query($connection, $query);
+    
+            // Check if the query was successful
+            if ($query_run) {
+                $_SESSION['success'] = "<h4>NEW ADMIN ADDED</h4>";
                 $_SESSION['status_code'] = "success";
-                header('Location: admin.php?new_admin_data=succefully==added');
-            }
-            else 
-            {
+                header('Location: admin.php?new_admin_data=successfully==added');
+            } else {
                 $_SESSION['status'] = "<h4>NEW ADMIN NOT ADDED</h4>";
                 $_SESSION['status_code'] = "error";
-                header('Location: admin.php?new_admin_data=failed==to_add');  
+                header('Location: admin.php?new_admin_data=failed==to_add');
             }
-        }
-        else 
-        {
-            $_SESSION['status'] = "Password and Confirm Password Does Not Match";
+        } else {
+            // Passwords do not match
+            $_SESSION['status'] = "Password and Confirm Password Do Not Match";
             $_SESSION['status_code'] = "warning";
-            header('Location: admin.php?aunt=0==password=failed==please_try_again');  
+            header('Location: admin.php?aunt=0==password=failed==please_try_again');
         }
     }
-
-
-
     
+
     if(isset($_POST['customerbtn1']))
 {
     $lastname = $_POST['lastname'];
@@ -190,28 +212,31 @@ if(isset($_POST['registerbtn']))
 
 
    
-    if(isset($_POST['updatebtn']))
-    {
+    
+    if (isset($_POST['updatebtn'])) {
         $id = $_POST['edit_id'];
         $username = $_POST['edit_username'];
         $email = $_POST['edit_email'];
         $password = $_POST['edit_password'];
     
-        $query = "UPDATE admintb SET username='$username', email='$email', password='$password' WHERE id='$id' ";
+        // Hash the password before updating it in the database
+        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+    
+        // Update the admin data, including the hashed password
+        $query = "UPDATE admintb SET username='$username', email='$email', password='$hashed_password' WHERE id='$id'";
         $query_run = mysqli_query($connection, $query);
     
-        if($query_run)
-        {
+        if ($query_run) {
             $_SESSION['success'] = "<h4>YOUR DATA IS UPDATED</h4>";
-            header('Location: admin.php?admin_data=succefully=updated'); 
-        }
-        else
-        {
+            header('Location: admin.php?admin_data=successfully=updated'); 
+        } else {
             $_SESSION['status'] = "<h4>YOUR DATA IS NOT UPDATED</h4>";
             $_SESSION['status_code'] = "error";
-            header('Location: admin.php?admin_data=failed=updated:('); 
+            header('Location: admin.php?admin_data=failed=updated'); 
         }
     }
+    
+    
 
 
 
