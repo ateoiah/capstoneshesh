@@ -97,7 +97,7 @@ include('includes/navbar.php');
               ?>
 
           <tr>
-            <td> <?php echo $row['id']; ?></td>
+            <td> <?php echo $row['customerid']; ?></td>
             <td> <?php echo $row['lastname']; ?></td>
             <td> <?php echo $row['firstname']; ?></td>
             <td> <?php echo $row['email']; ?></td>
@@ -105,13 +105,13 @@ include('includes/navbar.php');
 
             <td>
                 <form action="Customer_edit.php" method="post">
-                    <input type="hidden" name="customeredit_id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="customeredit_id" value="<?php echo $row['customerid']; ?>">
                     <button  type="submit" name="customeredit_btn" class="btn btn-success"> EDIT</button>
                 </form>
             </td>
             <td>
 <form action="code.php" method="post" onsubmit="return confirmDelete();">
-    <input type="hidden" name="customerdelete_id1" value="<?php echo $row['id']; ?>">
+    <input type="hidden" name="customerdelete_id1" value="<?php echo $row['customerid']; ?>">
     <button type="submit" name="customerdeletebtn" class="btn btn-danger">DELETE</button>
 </form>
 

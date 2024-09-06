@@ -289,7 +289,7 @@ if(isset($_POST['registerbtn']))
     if(isset($_POST['customerdeletebtn'])) {
         $id = $_POST['customerdelete_id1'];
 
-        $query = "DELETE FROM customertb WHERE id = '$id' ";
+        $query = "DELETE FROM customertb WHERE customerid = '$id' ";
         $query_run = mysqli_query($connection, $query);
 
         if($query_run){
