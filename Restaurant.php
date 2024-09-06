@@ -21,7 +21,7 @@ include('includes/navbar.php');
     </div>
     <div class="form-group">
       <label for="price">Adrress</label>
-      <input type="text" name="address" class="form-control" id="adrress" placeholder="Enter Adrress" required>
+      <input type="text" name="adrress" class="form-control" id="adrress" placeholder="Enter Adrress" required>
     </div>
      <!-- <div class="form-group">
       <label for="quantity">Quantity</label>

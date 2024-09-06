@@ -1,7 +1,7 @@
 <?php
 include('Security.php');
 include('includes/header.php');
-include('includes/navbar.php');
+include('includes/navbar_restaurant.php');
 ?>
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -39,12 +39,12 @@ include('includes/navbar.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Restaurant Registered</div>
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Orders</div>
                             <?php
                             if ($connection->connect_error) {
                                 die("Failed". $connection->connect_error. $connection->connect_error);
                             }
-                            $query = "SELECT COUNT(id) AS total_product FROM restauranttb";
+                            $query = "SELECT COUNT(orderid) AS total_order FROM restauranttb";
                             $result = $connection->query($query);
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_assoc();

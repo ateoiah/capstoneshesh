@@ -11,7 +11,7 @@ if(isset($_POST['login_btn'])) {
     } 
     // Check if regular user is logging in
     else if ($user_type == 'resto') {
-        $query = "SELECT * FROM restaurantadmintb WHERE email = '$email_login' AND password = '$password_login' ";
+        $query = "SELECT * FROM restaurantadmintb WHERE restaurant_admin_email = '$email_login' AND restaurant_admin_password = '$password_login' ";
     }
 
     $query_run = mysqli_query($connection, $query);
@@ -167,10 +167,10 @@ if(isset($_POST['registerbtn']))
     if(isset($_POST['productbtn1']))
 {
     $restaurant_name = $_POST['restaurant_name'];
-    $adrress = $_POST['address'];
+    $adrress = $_POST['adrress'];
 
         {
-            $query1 = "INSERT INTO restauranttb (restaurant_name, adrress) VALUES ('$restaurant_name', '$address')";
+            $query1 = "INSERT INTO restauranttb (restaurant_name, adrress) VALUES ('$restaurant_name', '$adress')";
             $query_run = mysqli_query($connection, $query1);
             
             if($query_run)
@@ -306,16 +306,16 @@ if(isset($_POST['registerbtn']))
     if(isset($_POST['deletebtn1'])) {
         $id = $_POST['delete_id1'];
 
-        $query = "DELETE FROM product WHERE id = '$id' ";
+        $query = "DELETE FROM restauranttb WHERE restaurantid = '$id' ";
         $query_run = mysqli_query($connection, $query);
 
         if($query_run){
             
             $_SESSION['status'] = "<h4>YOUR PRODUCT DELETED</h4>";
-            header('Location: Product.php?product_data==successfully-deleted-product-removed');
+            header('Location: Restaurant.php?product_data==successfully-deleted-product-removed');
         }else {
             $_SESSION['status'] = "YOUR PRODUCT IS DELETED";
-            header('Location: Product.php?product_data==failed-to-delete:(');
+            header('Location: Restaurant.php?product_data==failed-to-delete:(');
         }
     }
 
