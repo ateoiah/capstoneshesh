@@ -6,7 +6,7 @@ include('includes/navbar.php');
 
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Edit Marble Product </h6>
+    <h6 class="m-0 font-weight-bold text-primary">Edit Restaurant Data </h6>
   </div>
 
   <div class="card-body">
@@ -15,7 +15,7 @@ include('includes/navbar.php');
         {
             $id = $_POST['edit_id1'];
 
-            $query = "SELECT * FROM restauranttb WHERE id = '$id'";
+            $query = "SELECT * FROM restauranttb WHERE restaurantid = '$id'";
             $query_run = mysqli_query($connection, $query);
 
             foreach($query_run as $row)
@@ -24,7 +24,7 @@ include('includes/navbar.php');
 
                     <form action="code.php" method="POST">
 
-                    <input type="hidden" name="edit_id1" value="<?php echo $row['id'] ?>">
+                    <input type="hidden" name="edit_id1" value="<?php echo $row['restaurantid'] ?>">
 
                     <div class="form-group">
                         <label> Product </label>
@@ -33,8 +33,8 @@ include('includes/navbar.php');
                     </div>
                     <div class="form-group">
                         <label>Adrress</label>
-                        <input type="text" name="edit_price" value="<?php echo $row['address'] ?>" class="form-control"
-                            placeholder="Enter Email">
+                        <input type="text" name="edit_price" value="<?php echo $row['adrress'] ?>" class="form-control"
+                            placeholder="Enter Adrress">
                     </div>
                     <!-- <div class="form-group">
                         <label>Qantity</label>

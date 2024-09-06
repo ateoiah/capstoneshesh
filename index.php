@@ -44,11 +44,11 @@ include('includes/navbar.php');
                             if ($connection->connect_error) {
                                 die("Failed". $connection->connect_error. $connection->connect_error);
                             }
-                            $query = "SELECT COUNT(id) AS total_product FROM restauranttb";
+                            $query = "SELECT COUNT(restaurantid) AS total_restaurant FROM restauranttb";
                             $result = $connection->query($query);
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_assoc();
-                                $totalproduct = $row["total_product"];
+                                $totalproduct = $row["total_restaurant"];
                                 echo "<h4><strong>$totalproduct</strong></h4>";
                             }
                             ?>
@@ -72,7 +72,7 @@ include('includes/navbar.php');
                                 if ($connection->connect_error) {
                                 die("Failed". $connection->connect_error. $connection->connect_error);
                             }
-                            $query = "SELECT COUNT(id) AS total_customer FROM customertb";
+                            $query = "SELECT COUNT(customerid) AS total_customer FROM customertb";
                             $result = $connection->query($query);
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_assoc();

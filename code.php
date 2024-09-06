@@ -170,20 +170,20 @@ if(isset($_POST['registerbtn']))
     $adrress = $_POST['address'];
 
         {
-            $query1 = "INSERT INTO restauranttb (restaurant_name, address) VALUES ('$restaurant_name', '$address')";
+            $query1 = "INSERT INTO restauranttb (restaurant_name, adrress) VALUES ('$restaurant_name', '$address')";
             $query_run = mysqli_query($connection, $query1);
             
             if($query_run)
             {
                 $_SESSION['success'] = "<h4>NEW RESTAURANT ADDED</h4>";
                 $_SESSION['status_code'] = "success";
-                header('Location: Product.php?new_product_data=succefully==added');
+                header('Location: Restaurant.php?new_product_data=succefully==added');
             }
             else 
             {
                 $_SESSION['status'] = "<h4>NEW RESTAURANT NOT ADDED</h4>";
                 $_SESSION['status_code'] = "error";
-                header('Location: Product.php?new_product_data=failed==to_add');  
+                header('Location: Restaurant.php?new_product_data=failed==to_add');  
             }
         }
     }
@@ -246,9 +246,9 @@ if(isset($_POST['registerbtn']))
         $id = $_POST['edit_id1'];
         $edit_product = $_POST['edit_product'];
         $edit_price = $_POST['edit_price'];
-        $edit_quantity = $_POST['edit_quantity'];
+        #$edit_quantity = $_POST['edit_quantity'];
     
-        $query = "UPDATE restauranttb SET restaurant_name='$edit_product', address='$edit_price' WHERE id='$id' ";
+        $query = "UPDATE restauranttb SET restaurant_name='$edit_product', adrress='$edit_price' WHERE restaurantid='$id' ";
         $query_run = mysqli_query($connection, $query);
     
         if($query_run)
