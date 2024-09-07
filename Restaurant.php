@@ -13,15 +13,15 @@ include('includes/navbar.php');
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-<form action="code.php" method="POST">
+<form action="code.php" method="POST" onsubmit="return confirmSubmit()">
   <div class="modal-body">
     <div class="form-group">
       <label for="product">Name</label>
       <input type="text" name="restaurant_name" class="form-control" id="name" placeholder="Enter Restaurant" required>
     </div>
     <div class="form-group">
-      <label for="price">Adrress</label>
-      <input type="text" name="adrress" class="form-control" id="adrress" placeholder="Enter Adrress" required>
+      <label for="address">Address</label>
+      <input type="text" name="address" class="form-control" id="address" placeholder="Enter Address" required>
     </div>
      <!-- <div class="form-group">
       <label for="quantity">Quantity</label>
@@ -30,12 +30,17 @@ include('includes/navbar.php');
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    <button type="submit" name="productbtn1" class="btn btn-primary">Save</button>
+    <button type="submit" name="restaurantbtn" class="btn btn-primary">Save</button>
   </div>
 </form>
     </div>
   </div>
 </div>
+<script>
+    function confirmSubmit() {
+        return confirm('Are you sure you want to add this new restuarant?');
+    }
+</script>
 
 <div class="container-fluid">
 

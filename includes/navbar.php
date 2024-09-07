@@ -43,12 +43,18 @@
     <span>Restaurant</span></a>
 </li>
 
-<!-- Divider -->
-<hr class="sidebar-divider">
+<li class="nav-item">
+  <a class="nav-link" href="adminresto.php">
+    <i class="fas fa-fw fa-chart-area"></i>
+    <span>Restaurant Admin</span></a>
+</li>
 
+<!-- Divider 
+<hr class="sidebar-divider">
+-->
 <!-- Heading -->
 
-<!-- Nav Item - Pages Collapse Menu -->
+<!-- Nav Item - Pages Collapse Menu 
 <li class="nav-item">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
     <i class="fas fa-fw fa-folder"></i>
@@ -61,9 +67,9 @@
       <a class="collapse-item" href="usersignup.php">User Register</a>
   </div>
 </li>
-
-<!-- Divider -->
-<hr class="sidebar-divider d-none d-md-block">
+-->
+<!-- Divider 
+<hr class="sidebar-divider d-none d-md-block"> -->
 
 <!-- Sidebar Toggler (Sidebar) -->
 <div class="text-center d-none d-md-inline">
@@ -128,7 +134,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 large">
 
                <?php echo $_SESSION['username']?>
                   Logout

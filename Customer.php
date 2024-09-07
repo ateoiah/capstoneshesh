@@ -12,7 +12,7 @@ include('includes/navbar.php');
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-        <form action="code.php" method="POST">
+        <form action="code.php" method="POST" onsubmit="return confirmSubmit()">
           <div class="modal-body">
             <div class="form-group">
               <label for="lastname">Last Name</label>
@@ -43,6 +43,12 @@ include('includes/navbar.php');
           </div>
         </div>
       </div>
+
+      <script>
+    function confirmSubmit() {
+        return confirm('Are you sure you want to add this new customer?');
+    }
+</script>
 
 <div class="container-fluid">
 

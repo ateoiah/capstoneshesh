@@ -120,13 +120,13 @@ include('includes/navbar.php');
                                                     <td><?php echo $row['password']; ?></td>
                                                     <td>
                                                         <form action="Customer_edit.php" method="post">
-                                                            <input type="hidden" name="customeredit_id" value="<?php echo $row['id']; ?>">
+                                                            <input type="hidden" name="customeredit_id" value="<?php echo $row['customerid']; ?>">
                                                             <button type="submit" name="customeredit_btn" class="btn btn-success btn-sm"> EDIT</button>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form action="code.php" method="post" onsubmit="return confirmDelete();">
-                                                            <input type="hidden" name="customerdelete_id1" value="<?php echo $row['id']; ?>">
+                                                            <input type="hidden" name="customerdelete_id1" value="<?php echo $row['customerid']; ?>">
                                                             <button type="submit" name="customerdeletebtn" class="btn btn-danger btn-sm">DELETE</button>
                                                         </form>
                                                     </td>
@@ -144,7 +144,7 @@ include('includes/navbar.php');
                             </table>
 
 
-                            <h4 class="text-success mt-4">Search Results for Product Table</h4>
+                            <h4 class="text-success mt-4">Search Results for Restaurant Table</h4>
                             <table class="table table-bordered table-striped" id="dataTableProduct" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>

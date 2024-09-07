@@ -22,7 +22,7 @@ include('includes/navbar.php');
             {
                 ?>
 
-                    <form action="code.php" method="POST">
+                    <form action="code.php" method="POST" onsubmit="return confirmSubmit()">
 
                     <input type="hidden" name="edit_id1" value="<?php echo $row['restaurantid'] ?>">
 
@@ -46,6 +46,12 @@ include('includes/navbar.php');
                     <button type="submit" name="updatebtn1" class="btn btn-primary"> Update </button>
 
 </form>
+
+<script>
+    function confirmSubmit() {
+        return confirm('Are you sure you want to update this restaurant?');
+    }
+</script>
   <?php
   }
   }

@@ -16,3 +16,7 @@ if(isset($_POST['login_btn'])) {
         header('Location: login.php?login_attempt=failed=try_again');
     }
 }
+
+#date_timestamp_get
+<td><?php echo $row['created_at']; ?></td>
+<td><?php echo $row['last_login']; ?></td>
