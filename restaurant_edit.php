@@ -29,12 +29,12 @@ include('includes/navbar.php');
                     <div class="form-group">
                         <label> Product </label>
                         <input type="text" name="edit_product" value="<?php echo $row['restaurant_name'] ?>" class="form-control"
-                            placeholder="Enter Username">
+                            placeholder="Enter Username" required>
                     </div>
                     <div class="form-group">
                         <label>Adrress</label>
                         <input type="text" name="edit_price" value="<?php echo $row['adrress'] ?>" class="form-control"
-                            placeholder="Enter Adrress">
+                            placeholder="Enter Adrress" required>
                     </div>
                     <!-- <div class="form-group">
                         <label>Qantity</label>
