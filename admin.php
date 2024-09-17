@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include('Security.php');
 include('includes/header.php'); 
 include('includes/navbar.php'); 
@@ -58,17 +60,21 @@ include('includes/navbar.php');
       </h6>
     </div>
 
-    <div class="card-body">
-      <?php
-      if(isset($_SESSION['success']) && $_SESSION['success'] != '') {
-        echo '<h2 class="bg-primary text-white">'.$_SESSION['success'].'</h2>'; 
-        unset($_SESSION['success']);
-      }
-      if(isset($_SESSION['status']) && $_SESSION['status'] != '') {
-        echo '<h2>'.$_SESSION['status'].'</h2>'; 
-        unset($_SESSION['status']);
-      }
-      ?>
+    <div class="container d-flex justify-content-center ">
+    <div class="mt-4">
+        <?php
+        if (isset($_GET['status'])) {
+            if ($_GET['status'] == 'success' && isset($_SESSION['success'])) {
+                echo '<div class="alert alert-success" role="alert">' . $_SESSION['success'] . '</div>';
+                unset($_SESSION['success']); // Clear the message after displaying it
+            } elseif ($_GET['status'] == 'error' && isset($_SESSION['status'])) {
+                echo '<div class="alert alert-danger" role="alert">' . $_SESSION['status'] . '</div>';
+                unset($_SESSION['status']); // Clear the message after displaying it
+            }
+        }
+        ?>
+    </div>
+</div>
 
       <div class="table-responsive">
         <?php       

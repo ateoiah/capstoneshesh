@@ -1,39 +1,25 @@
 <?php
+
 include('Security.php');
-if (isset($_POST['login_btn'])) {
-    $email_login = $_POST['emaill']; 
-    $password_login = $_POST['passwordd']; 
-    $user_type = $_POST['user_type'];
+if(isset($_POST['login_btn'])) {
+    $email_login = $_POST['emaill'];
+    $password_login = $_POST['passwordd'];
+    //$user_type = $_POST['user_type'];
 
-    if ($user_type == 'admin') {
-        $query = "SELECT * FROM admintb WHERE email = '$email_login'";
-    } 
-    // Check if regular user is logging in
-    else if ($user_type == 'resto') {
-        $query = "SELECT * FROM restaurantadmintb WHERE restaurant_admin_email = '$email_login'";
-    }
-
+    $query = "SELECT * FROM admintb WHERE email = '$email_login' AND password = '$password_login' ";
     $query_run = mysqli_query($connection, $query);
-    
-    if ($query_run && $user = mysqli_fetch_assoc($query_run)) {
-        // Verify password
-        if ($user_type == 'admin' && password_verify($password_login, $user['password'])) {
-           $_SESSION['username'] = $email_login;
-           //$update_query = "UPDATE admintb SET last_login = NOW() WHERE email = '$email_login'";
-           // mysqli_query($connection, $update_query);
-            header('Location: index.php?status=success-logged-in');
-        } else if ($user_type == 'resto' && password_verify($password_login, $user['restaurant_admin_password'])) {
-            $_SESSION['username'] = $email_login;
-            header('Location: restaurant_dashboard.php?status=success-logged-in');
-        } else {
-            $_SESSION['status'] = '<h6>Incorrect Password</h6>';
-            header('Location: login.php?login_attempt=failed=try_again');
-        }
-    } else {
-        $_SESSION['status'] = '<h6>User not Found</h6>';
-        header('Location: login.php?login_attempt=failed=try_again');
+
+    if(mysqli_fetch_array($query_run))
+    {         
+        $_SESSION['username'] = $email_login;
+        header('Location: index.php?status=success-logged-in=homepage');
+
+    }else {
+        $_SESSION['status'] = 'Invalid Password!';
+        $_SESSION['status_code'] = 'error'; // This will help to identify the type of alert
+        header('Location: login.php'); // Redirect back to the login page
+        exit();
     }
-    exit(); // Always call exit after header redirect
 }
 
 

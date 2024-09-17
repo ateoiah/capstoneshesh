@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 include('database/dbconfig.php');
 
 if($dbconfig)
@@ -8,9 +8,11 @@ if($dbconfig)
 else
 {
     header("Location: database/dbconfig.php");
+    exit();
 }
 if(!$_SESSION['username'])
 {
     header('Location: login.php');
+    exit(); 
 }
 ?>

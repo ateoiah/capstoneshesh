@@ -1,7 +1,9 @@
 <?php
+session_start();
 include('Security.php');
 include('includes/header.php');
 include('includes/navbar.php');
+
 ?>
 
 <div class="container-fluid">
@@ -15,7 +17,7 @@ include('includes/navbar.php');
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Registered Admin</div>
-                            <?php
+                            <?php   
                             if ($connection->connect_error) {
                                 die("Failed". $connection->connect_error. $connection->connect_error);
                             }
@@ -45,7 +47,7 @@ include('includes/navbar.php');
                             if ($connection->connect_error) {
                                 die("Failed". $connection->connect_error. $connection->connect_error);
                             }
-                            $query = "SELECT COUNT(restaurantid) AS total_restaurant FROM restauranttb";
+                            $query = "SELECT COUNT(restaurant_id) AS total_restaurant FROM restauranttb";
                             $result = $connection->query($query);
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_assoc();
@@ -73,7 +75,7 @@ include('includes/navbar.php');
                                 if ($connection->connect_error) {
                                 die("Failed". $connection->connect_error. $connection->connect_error);
                             }
-                            $query = "SELECT COUNT(customerid) AS total_customer FROM customertb";
+                            $query = "SELECT COUNT(customer_id) AS total_customer FROM customertb";
                             $result = $connection->query($query);
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_assoc();
@@ -92,37 +94,6 @@ include('includes/navbar.php');
             </div>
         </div>
 
-        <!--Restaurant Admin -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card bg-info text-white shadow">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Registered Admin of Restaurant</div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                            <?php
-                                if ($connection->connect_error) {
-                                die("Failed". $connection->connect_error. $connection->connect_error);
-                            }
-                            $query = "SELECT COUNT(restaurant_admin_id) AS total_restaurant_admin FROM restaurantadmintb";
-                            $result = $connection->query($query);
-                            if ($result->num_rows > 0) {
-                                $row = $result->fetch_assoc();
-                                $totalcustomer = $row["total_restaurant_admin"];
-                                echo "<h4><strong>$totalcustomer</strong></h4>";
-                            }
-                            ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                        <i class="fas fa-users fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- <div class="col-xl-3 col-md-6 mb-4">
             <div class="card bg-warning text-white shadow">
                 <div class="card-body">

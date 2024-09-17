@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include('Security.php');
 include('includes/header.php'); 
 include('includes/navbar.php'); 
@@ -22,7 +24,7 @@ include('includes/navbar.php');
             {
                 ?>
 
-                    <form action="code.php" method="POST">
+                    <form action="admin_functions.php" method="POST">
 
                     <input type="hidden" name="edit_id" value="<?php echo $row['id'] ?>">
 
@@ -51,6 +53,7 @@ include('includes/navbar.php');
 ?>
   </div>
   </div>
+
 <?php
 include('includes/scripts.php');
 include('includes/footer.php');
