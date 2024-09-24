@@ -1,6 +1,9 @@
 <?php   
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 include('Security.php'); // Include your Security script if needed
+
 ?>
 <div class="container mt-5">
     <div class="row justify-content-center">

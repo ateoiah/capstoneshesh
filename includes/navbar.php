@@ -1,5 +1,5 @@
    <!-- Sidebar -->
-   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
 <ul class="sidebar-brand d-flex align-items-center justify-content-center" >
@@ -130,6 +130,11 @@
             </li>
 
             <div class="topbar-divider d-none d-sm-block"></div>
+
+            <?php
+            // Check if the username session variable is set
+            $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Default value if not set
+            ?>
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">

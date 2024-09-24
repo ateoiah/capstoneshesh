@@ -1,18 +1,18 @@
 <?php
-//session_start();
+// Ensure session is started
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+    
 include('database/dbconfig.php');
 
-if($dbconfig)
-{
-}
-else
-{
-    header("Location: database/dbconfig.php");
+// Check database connection
+if (!$dbconfig) {
+    // Redirect if there's an issue with the database connection
+    header("Location: error.php?error=db_connection_failed");
     exit();
 }
-if(!$_SESSION['username'])
-{
-    header('Location: login.php');
-    exit(); 
-}
+
+// Check if the user is logged in
+
 ?>
