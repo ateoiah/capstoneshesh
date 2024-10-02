@@ -3,7 +3,8 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-    
+
+// Include the database configuration file
 include('database/dbconfig.php');
 
 // Check database connection
@@ -13,6 +14,5 @@ if (!$dbconfig) {
     exit();
 }
 
-// Check if the user is logged in
-
 ?>
+

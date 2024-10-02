@@ -25,9 +25,20 @@ if(isset($_POST['login_btn'])) {
 
 if(isset($_POST['logout_btn'])) {
     unset($_SESSION['username']);
-        session_destroy();
-        header('Location: login.php?logout-succesfully');
-        exit();
+
+    // Unset all of the session variables related to the login
+    unset($_SESSION['user_id']);
+    unset($_SESSION['username']); // Adjust this to your session variables
+    
+    // Optionally, unset all session variables
+    session_unset();
+    
+    // Destroy the session to completely log the user out
+    session_destroy();
+    
+    // Optionally, redirect the user to the login page or home page
+    header('Location: login.php'); // Change this to your login page
+    exit();
 }
 
 

@@ -44,9 +44,9 @@
 </li>
 
 <li class="nav-item">
-  <a class="nav-link" href="adminresto.php">
+  <a class="nav-link" href="#">
     <i class="fas fa-fw fa-chart-area"></i>
-    <span>Restaurant Admin</span></a>
+    <span>Reports</span></a>
 </li>
 
 <!-- Divider 

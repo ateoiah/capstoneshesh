@@ -13,7 +13,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item active">
-  <a class="nav-link" href="restaurant_dashboard.php">
+  <a class="nav-link" href="index.php">
     <i class="fas fa-fw fa-tachometer-alt"></i>
     <span>Dashboard</span></a>
 </li>
@@ -27,25 +27,25 @@
 </div>
 
 <li class="nav-item">
-  <a class="nav-link" href="admin.php">
+  <a class="nav-link" href="owner_menu.php">
     <i class="fas fa-fw fa-chart-area"></i>
-    <span>Admin</span></a>
+    <span>Menu</span></a>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="Customer.php">
     <i class="fas fa-fw fa-chart-area"></i>
-    <span>Menu</span></a>
+    <span>Order</span></a>
 </li>
 
 <li class="nav-item">
   <a class="nav-link" href="Restaurant.php">
     <i class="fas fa-fw fa-chart-area"></i>
-    <span>Restaurant</span></a>
+    <span>Reports</span></a>
 </li>
 
-<!-- Divider -->
+<!-- Divider 
 <hr class="sidebar-divider">
-
+-->
 <!-- Heading -->
 
 <!-- Nav Item - Pages Collapse Menu 
@@ -62,16 +62,15 @@
   </div>
 </li>
 -->
-
 <!-- Divider 
 <hr class="sidebar-divider d-none d-md-block"> -->
 
-<!-- Sidebar Toggler (Sidebar) 
+<!-- Sidebar Toggler (Sidebar) -->
 <div class="text-center d-none d-md-inline">
   <button class="rounded-circle border-0" id="sidebarToggle"></button>
 </div>
 
-</ul>-->
+</ul>
 <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -126,24 +125,32 @@
 
             <div class="topbar-divider d-none d-sm-block"></div>
 
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+            <?php
+            // Check if the username session variable is set
+            $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Default value if not set
+            ?>
 
-               <?php echo $_SESSION['username']?>
-                  Logout
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow d-flex align-items-center">
+                <span class="mr-2 text-gray-600 large">
+                    <?php echo $_SESSION['username']; ?>
                 </span>
-               
-              </a>
-              <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
-                </a>
-              </div>
+                <button class="button ml-2" onclick="confirmLogout()">Log Out</button>
+                
+                <script>
+                    function confirmLogout() {
+                        // Display a confirmation dialog
+                        const confirmation = confirm("Are you sure you want to log out?");
+
+                        // If the user clicks "OK", redirect to the logout script
+                        if (confirmation) {
+                            location.href = 'logout.php'; // Redirect to the logout script
+                        }
+                        // If the user clicks "Cancel", do nothing (logout is canceled)
+                    }
+                </script>
             </li>
+
 
           </ul>
 

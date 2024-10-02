@@ -31,16 +31,23 @@ include('includes/navbar.php');
                     <div class="form-group">
                         <label> Username </label>
                         <input type="text" name="edit_username" value="<?php echo $row['username'] ?>" class="form-control"
-                            placeholder="Enter Username">
+                            placeholder="Enter Username" required >
                     </div>
                     <div class="form-group">
                         <label>Email</label>
                         <input type="email" name="edit_email" value="<?php echo $row['email'] ?>" class="form-control"
-                            placeholder="Enter Email">
+                            placeholder="Enter Email" required>
                     </div>
                     <div class="form-group">
                         <label>Password</label>
                         <input type="password" name="edit_password" class="form-control" placeholder="Enter New Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>User Role</label>
+                        <select name="edit_role" class="form-control" required>
+                            <option value="admin" <?php if ($row['position'] === 'admin') echo 'selected'; ?>>Admin</option>
+                            <option value="owner" <?php if ($row['position'] === 'owner') echo 'selected'; ?>>Owner</option>
+                        </select>
                     </div>
 
                     <a href="javascript:history.back()" class="btn btn-danger">CANCEL</a>

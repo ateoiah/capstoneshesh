@@ -1,74 +1,42 @@
 <?php
+session_start();
+
 include('Security.php');
 include('includes/header.php'); 
 include('includes/navbar.php'); 
 ?>
 
-<div class="modal fade" id="addadminprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Restaurant</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-<form action="code.php" method="POST" onsubmit="return confirmSubmit()">
-  <div class="modal-body">
-    <div class="form-group">
-      <label for="product">Name</label>
-      <input type="text" name="restaurant_name" class="form-control" id="name" placeholder="Enter Restaurant" required>
-    </div>
-    <div class="form-group">
-      <label for="address">Address</label>
-      <input type="text" name="address" class="form-control" id="address" placeholder="Enter Address" required>
-    </div>
-     <!-- <div class="form-group">
-      <label for="quantity">Quantity</label>
-      <input type="text" name="quantity" class="form-control" id="quantity" placeholder="Enter Quantity" required>
-    </div> -->
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    <button type="submit" name="restaurantbtn" class="btn btn-primary">Save</button>
-  </div>
-</form>
+
+
+<div class="container-fluid">
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Restaurants Data 
+        <a href="restaurant_add.php" class="btn btn-primary">
+          Add Restaurant
+        </a>
+      </h6>
     </div>
   </div>
 </div>
-<script>
-    function confirmSubmit() {
-        return confirm('Are you sure you want to add this new restuarant?');
-    }
-</script>
-
-<div class="container-fluid">
-
-<div class="card shadow mb-4">
-  <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Restaurants Data
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addadminprofile">
-        Add Restaurant 
-      </button>
-    </h6>
-  </div>
-
   <div class="card-body">
   
   <?php
+echo '<div class="container mt-5">';
 
-              if(isset($_SESSION['success']) && $_SESSION['success'] !='')
-              {
-              echo '<h2 class="bg-primary text-white">'.$_SESSION['success']. ' </h2>'; 
-              unset($_SESSION['success']);
-              }
-              if(isset($_SESSION['status']) && $_SESSION['status'] !='')
-              {
-              echo '<h2>'.$_SESSION['status'].' </h2>'; unset($_SESSION['status']);
-              }
-              ?>
-    <div class="table-responsive">
-    
+if (isset($_SESSION['success'])) {
+    echo '<div class="alert alert-success text-center" style="color: green;">' . $_SESSION['success'] . '</div>';
+    unset($_SESSION['success']); // Unset the success message after displaying
+}
+
+if (isset($_SESSION['status'])) {
+    echo '<div class="alert alert-danger text-center" style="color: red;">' . $_SESSION['status'] . '</div>';
+    unset($_SESSION['status']); // Unset the error message after displaying
+}
+
+echo '</div>';
+?>
+
     <?php        
         $query = "SELECT * FROM restauranttb";
         $query_run = mysqli_query($connection, $query);
@@ -80,6 +48,7 @@ include('includes/navbar.php');
             <th>ID </th>
             <th>Restaurant Name </th>
             <th>Adrress </th>
+            <th>Contact Number </th>
             <th>EDIT </th>
             <th>DELETE </th>
           </tr>
@@ -93,20 +62,22 @@ include('includes/navbar.php');
               ?>
 
           <tr>
-            <td> <?php echo $row['restaurantid']; ?></td>
+            <td> <?php echo $row['restaurant_id']; ?></td>
             <td> <?php echo $row['restaurant_name']; ?></td>
-            <td> <?php echo $row['adrress']; ?></td>
+            <td> <?php echo $row['address']; ?></td>
+            <td> <?php echo $row['contactnumber']; ?></td>
+
 
             <td>
                 <form action="restaurant_edit.php" method="post">
-                    <input type="hidden" name="edit_id1" value="<?php echo $row['restaurantid']; ?>">
+                    <input type="hidden" name="edit_id1" value="<?php echo $row['restaurant_id']; ?>">
                     <button  type="submit" name="edit_btn1" class="btn btn-success"> EDIT</button>
                 </form>
             </td>
             <td>
-            <form action="code.php" method="post" onsubmit="return confirmDelete();">
-                <input type="hidden" name="delete_id1" value="<?php echo $row['restaurantid']; ?>">
-                <button type="submit" name="deletebtn1" class="btn btn-danger">DELETE</button>
+            <form action="restaurant_functions.php" method="post" onsubmit="return confirmDelete();">
+                <input type="hidden" name="delete_id1" value="<?php echo $row['restaurant_id']; ?>">
+                <button type="submit" name="restaurant_delete" class="btn btn-danger">DELETE</button>
             </form>
 
             <script>

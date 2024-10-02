@@ -72,8 +72,25 @@ if (isset($_POST['login_btn'])) {
                 header('Location: index.php?status=success-logged-in=admin');
                 exit();
             } else {
-                header('Location: manager_dashboard.php?status=success-logged-in=manager');
-                exit();
+                $query = "SELECT restaurant_id, restaurant_name FROM restauranttb WHERE restaurant_email = ?";
+                $stmt = $connection->prepare($query);
+                $stmt->bind_param("s", $email_login);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows > 0) {
+                    $restaurant = $result->fetch_assoc();
+                    $restaurant_id = $restaurant['restaurant_id'];  // Get the restaurant ID
+            
+                    // Store restaurant_id in the session
+                    $_SESSION['restaurant_id'] = $restaurant_id;
+            
+                    // You can also store additional information, like restaurant name
+                    $_SESSION['restaurant_name'] = $restaurant['restaurant_name'];
+            
+                    // Redirect the user to a dashboard or menu page
+                    header("Location: owner_dashboard.php");
+                    exit();
+                }
             }
             exit(); // Ensure no further code is executed after redirection
         } else {
@@ -92,6 +109,8 @@ if (isset($_POST['login_btn'])) {
     }
     $stmt->close();
 }
+
+
 ?>
 
 

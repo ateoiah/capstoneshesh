@@ -15,32 +15,32 @@ include('includes/navbar.php');
         {
             $id = $_POST['edit_id1'];
 
-            $query = "SELECT * FROM restauranttb WHERE restaurantid = '$id'";
+            $query = "SELECT * FROM restauranttb WHERE restaurant_id = '$id'";
             $query_run = mysqli_query($connection, $query);
 
             foreach($query_run as $row)
             {
                 ?>
 
-                    <form action="code.php" method="POST" onsubmit="return confirmSubmit()">
+                    <form action="restaurant_functions.php" method="POST" onsubmit="return confirmSubmit()">
 
-                    <input type="hidden" name="edit_id1" value="<?php echo $row['restaurantid'] ?>">
+                    <input type="hidden" name="edit_id1" value="<?php echo $row['restaurant_id'] ?>">
 
                     <div class="form-group">
-                        <label> Product </label>
-                        <input type="text" name="edit_product" value="<?php echo $row['restaurant_name'] ?>" class="form-control"
+                        <label> Restaurant Name </label>
+                        <input type="text" name="edit_restoname" value="<?php echo $row['restaurant_name'] ?>" class="form-control"
                             placeholder="Enter Username" required>
                     </div>
                     <div class="form-group">
-                        <label>Adrress</label>
-                        <input type="text" name="edit_price" value="<?php echo $row['adrress'] ?>" class="form-control"
-                            placeholder="Enter Adrress" required>
+                        <label>Address</label>
+                        <input type="text" name="edit_address" value="<?php echo $row['address'] ?>" class="form-control"
+                            placeholder="Enter Address" required>
                     </div>
-                    <!-- <div class="form-group">
-                        <label>Qantity</label>
-                        <input type="text" name="edit_quantity" value="<?php echo $row['quantity'] ?>"
-                            class="form-control" placeholder="Enter Password">
-                    </div> -->
+                    <div class="form-group">
+                        <label>Contact Number</label>
+                        <input type="text" name="edit_contact" class="form-control" placeholder="Enter Contact Number" 
+                        value="<?php echo $row['contactnumber'] ?>" required pattern="^[0-9]{10,15}$" title="Please enter a valid contact number (10 to 15 digits)">
+                    </div>
 
                     <a href="javascript:history.back()" class="btn btn-danger">CANCEL</a>
                     <button type="submit" name="updatebtn1" class="btn btn-primary"> Update </button>

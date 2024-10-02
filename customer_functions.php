@@ -1,75 +1,75 @@
 <?php
-//Edit the admin
 include('Security.php');
 
-    if(isset($_POST['updatebtn']))
-    {
-        $id = $_POST['edit_id'];
-        $username = $_POST['edit_username'];
-        $email = $_POST['edit_email'];
-        $password = $_POST['edit_password'];
-        $role = $_POST['edit_role'];
-    
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+if(isset($_POST['customerupdatebtn']))
+{
+    $id = $_POST['customeredit_id'];
+    $lastname = $_POST['edit_lastname'];
+    $firstname = $_POST['edit_firstname'];
+    $email = $_POST['edit_email'];
+    $password = $_POST['edit_password'];
 
-        $query = "UPDATE admintb SET username='$username', email='$email', password='$hashed_password', position = '$role' WHERE id='$id' ";
-        $query_run = mysqli_query($connection, $query);
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        if ($query_run) {
-            $_SESSION['success'] = "<h4>YOUR DATA IS UPDATED SUCCESSFULLY</h4>";
-            header('Location: admin.php?status=success'); 
-            exit(); // Make sure to exit after redirecting
-        } else {
-            $_SESSION['status'] = "<h4>YOUR DATA IS NOT UPDATED</h4>";
-            $_SESSION['status_code'] = "error";
-            header('Location: admin.php?status=error'); 
-            exit(); // Make sure to exit after redirecting
-        }
+    $query = "UPDATE customertb SET customer_fname='$firstname', customer_lname = '$lastname', customer_email='$email', customer_password='$hashed_password' WHERE customer_id='$id' ";
+    $query_run = mysqli_query($connection, $query);
+
+    if ($query_run) {
+        $_SESSION['success'] = "<h4>YOUR DATA IS UPDATED SUCCESSFULLY</h4>";
+        header('Location: customer.php?status=success'); 
+        exit(); // Make sure to exit after redirecting
+    } else {
+        $_SESSION['status'] = "<h4>YOUR DATA IS NOT UPDATED</h4>";
+        $_SESSION['status_code'] = "error";
+        header('Location: customer.php?status=error'); 
+        exit(); // Make sure to exit after redirecting
     }
+}
 
     //Delete the admin
-    if(isset($_POST['deletebtn'])) {
-        $id = $_POST['delete_id'];
+    if(isset($_POST['customerdeletebtn'])) {
+        $id = $_POST['customerdelete_id'];
 
-        $query = "DELETE FROM admintb WHERE id = '$id' ";
+        $query = "DELETE FROM customertb WHERE customer_id = '$id' ";
         $query_run = mysqli_query($connection, $query);
 
         if($query_run){
             
             $_SESSION['success'] = "<h4>YOUR DATA IS DELETED</h4>";
-            header('Location: admin.php?admin_data==successfully-deleted-admin-removed');
+            header('Location: customer.php?admin_data==successfully-deleted-admin-removed');
             exit();
         }else {
             $_SESSION['status'] = "<h4>YOUR DATA IS NOT DELETED</h4>";
-            header('Location: admin.php?admin_data==failed-to-delete:');
+            header('Location: customer.php?admin_data==failed-to-delete:');
             exit();
         }
     }
 
-    //Add admin
+//Add Customer
+//Add admin
     // Initialize variables
     $error = '';
     $form_data = [];
     
     // Check if the form is submitted
-    if (isset($_POST['addbtn'])) {
-        $username = $_POST['username'];
+    if (isset($_POST['addcustomerbtn'])) {
+        $fname = $_POST['fname'];
+        $lname =$_POST['lname'];
         $email = $_POST['email'];
         $password = $_POST['password'];
         $cpassword = $_POST['confirm_password'];
-        $role = $_POST['role'];
     
         // Store form data in case of an error
         $form_data = [
-            'username' => $username,
+            'fname' => $fname,
+            'lname' => $lname,
             'email' => $email,
-            'role' => $role,
         ];
     
         // Check if passwords match
         if ($password === $cpassword) {
             // Check if email already exists in the database
-            $check_email_query = "SELECT * FROM admintb WHERE email = ?";
+            $check_email_query = "SELECT * FROM customertb WHERE customer_email = ?";
             $stmt = mysqli_prepare($connection, $check_email_query);
             mysqli_stmt_bind_param($stmt, 's', $email);
             mysqli_stmt_execute($stmt);
@@ -79,27 +79,27 @@ include('Security.php');
                 // Email already exists
                 $_SESSION['error'] = "The email is already registered. Please use a different email.";
                 $_SESSION['form_data'] = $form_data; // Store form data
-                header('Location: add_admin.php');
+                header('Location: customer_add.php');
                 exit();
             } else {
                 // Email does not exist, proceed with adding the new admin
                 $hashed_password = password_hash($password, PASSWORD_BCRYPT);
     
                 // Prepare the query using a prepared statement to insert the data into the database
-                $query = "INSERT INTO admintb (username, email, password, position) VALUES (?, ?, ?, ?)";
+                $query = "INSERT INTO customertb (customer_fname, customer_lname, customer_email, customer_password) VALUES (?, ?, ?, ?)";
                 $stmt = mysqli_prepare($connection, $query);
-                mysqli_stmt_bind_param($stmt, 'ssss', $username, $email, $hashed_password, $role);
+                mysqli_stmt_bind_param($stmt, 'ssss', $fname, $lname, $email, $hashed_password);
     
                 // Execute the query and check if it was successful
                 if (mysqli_stmt_execute($stmt)) {
-                    $_SESSION['success'] = "<h4>NEW ADMIN ADDED</h4>";
+                    $_SESSION['success'] = "<h4>NEW CUSTOMER ADDED</h4>";
                     $_SESSION['status_code'] = "success";
-                    header('Location: admin.php?new_admin_data=successfully_added');
+                    header('Location: customer.php?new_admin_data=successfully_added');
                     exit();
                 } else {
                     $_SESSION['error'] = "Failed to add the new admin. Please try again.";
                     $_SESSION['form_data'] = $form_data; // Store form data
-                    header('Location: add_admin.php');
+                    header('Location: customer_add.php');
                     exit();
                 }
     
@@ -109,13 +109,14 @@ include('Security.php');
             // Passwords do not match
             $_SESSION['error'] = "Password and Confirm Password Do Not Match";
             $_SESSION['form_data'] = $form_data; // Store form data
-            header('Location: add_admin.php');
+            header('Location: customer_add.php');
             exit();
         }
     } else {
         // Redirect if the form is not submitted
-        header('Location: add_admin.php');
+        header('Location: customer_add.php');
         exit();
     }
     
 ?>
+

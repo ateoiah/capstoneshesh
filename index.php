@@ -37,32 +37,7 @@ include('includes/navbar.php');
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card bg-success text-white shadow">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Registered Restaurant</div>
-                            <?php
-                            if ($connection->connect_error) {
-                                die("Failed". $connection->connect_error. $connection->connect_error);
-                            }
-                            $query = "SELECT COUNT(restaurant_id) AS total_restaurant FROM restauranttb";
-                            $result = $connection->query($query);
-                            if ($result->num_rows > 0) {
-                                $row = $result->fetch_assoc();
-                                $totalproduct = $row["total_restaurant"];
-                                echo "<h4><strong>$totalproduct</strong></h4>";
-                            }
-                            ?>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-shopping-basket fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card bg-info text-white shadow">
                 <div class="card-body">
@@ -93,7 +68,33 @@ include('includes/navbar.php');
                 </div>
             </div>
         </div>
-
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card bg-success text-white shadow">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Registered Restaurant</div>
+                            <?php
+                            if ($connection->connect_error) {
+                                die("Failed". $connection->connect_error. $connection->connect_error);
+                            }
+                            $query = "SELECT COUNT(restaurant_id) AS total_restaurant FROM restauranttb";
+                            $result = $connection->query($query);
+                            if ($result->num_rows > 0) {
+                                $row = $result->fetch_assoc();
+                                $totalproduct = $row["total_restaurant"];
+                                echo "<h4><strong>$totalproduct</strong></h4>";
+                            }
+                            ?>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-shopping-basket fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- <div class="col-xl-3 col-md-6 mb-4">
             <div class="card bg-warning text-white shadow">
                 <div class="card-body">

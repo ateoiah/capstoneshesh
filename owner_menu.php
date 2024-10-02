@@ -3,7 +3,7 @@ session_start();
 
 include('Security.php');
 include('includes/header.php'); 
-include('includes/navbar.php'); 
+include('includes/owner_navbar.php'); 
 
 ?>
 
@@ -11,15 +11,14 @@ include('includes/navbar.php');
     <div class="container-fluid">
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Admins Data 
-        <a href="add_admin.php" class="btn btn-primary">
-          Add Admin
+      <h6 class="m-0 font-weight-bold text-primary">Menus Data 
+        <a href="owner_addmenu.php" class="btn btn-primary">
+          Add Menu
         </a>
       </h6>
     </div>
   </div>
 </div>
-<div class="card-body">
 
 <?php
 echo '<div class="container mt-5">';
@@ -37,45 +36,47 @@ if (isset($_SESSION['status'])) {
 echo '</div>';
 ?>
 
+      <div class="table-responsive">
         <?php       
-        $query = "SELECT * FROM admintb";
-        $query_run = mysqli_query($connection, $query);
+        $restaurant_id = $_SESSION['restaurant_id'];
+        $query = "SELECT * FROM menutb WHERE restaurant_id = ?";
+        $stmt = $connection->prepare($query);
+        $stmt->bind_param("i", $restaurant_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
         ?>
 
         <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
           <thead class="thead-dark">
             <tr>
               <th>ID</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Password</th>
+              <th>Item Name</th>
+              <th>Price</th>
              <!-- <th>CREATED AT</th>
               <th>LAST LOGIN</th> -->
-              <th>Role</th>
               <th>EDIT</th>
               <th>DELETE</th>
             </tr>
           </thead>
           <tbody>
             <?php
-            if(mysqli_num_rows($query_run) > 0) {
-              while($row = mysqli_fetch_assoc($query_run)) {
+            if($result->num_rows > 0) {
+              while($row = $result->fetch_assoc()) {
             ?>
                 <tr>
-                  <td><?php echo $row['id']; ?></td>
-                  <td><?php echo $row['username']; ?></td>
-                  <td><?php echo $row['email']; ?></td>
-                  <td><?php echo $row['password']; ?></td>
-                  <td><?php echo $row['position']; ?></td>
+                  <td><?php echo $row['menuid']; ?></td>
+                  <td><?php echo $row['item_name']; ?></td>
+                  <td><?php echo $row['price']; ?></td>
                   <td>
-                    <form action="admin_edit.php" method="post">
-                      <input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>">
+                    <form action="menu_edit.php" method="post">
+                      <input type="hidden" name="edit_id" value="<?php echo $row['menuid']; ?>">
                       <button type="submit" name="edit_btn" class="btn btn-success">EDIT</button>
                     </form>
                   </td>
                   <td>
                   <form action="admin_functions.php" method="post" onsubmit="return confirmDelete();">
-                  <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
+                  <input type="hidden" name="delete_id" value="<?php echo $row['menuid']; ?>">
                   <button type="submit" name="deletebtn" class="btn btn-danger">DELETE</button>
               </form>
 

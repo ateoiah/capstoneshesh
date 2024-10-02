@@ -19,15 +19,15 @@ include('includes/navbar.php');
                 $result_admin = mysqli_query($connection, $query_admin);
 
                 $query_customer = "SELECT * FROM customertb
-                WHERE lastname LIKE '%$search%' OR firstname LIKE '%$search%'
-                OR email LIKE '%$search%'";
+                WHERE customer_lname LIKE '%$search%' OR customer_fname LIKE '%$search%'
+                OR customer_email LIKE '%$search%'";
 
                 $result_customer = mysqli_query($connection, $query_customer);
 
                 $query_product = "SELECT * FROM restauranttb 
                                   WHERE restaurant_name LIKE '%$search%'";
 
-                $result_product = mysqli_query($connection, $query_product);
+                $result_restaurant = mysqli_query($connection, $query_product);
             ?>
 
                 <div class="card">
@@ -41,6 +41,7 @@ include('includes/navbar.php');
                                         <th>USERNAME </th>
                                         <th>EMAIL </th>
                                         <th>PASSWORD </th>
+                                        <th>ROLE</th>
                                         <th>EDIT </th>
                                         <th>DELETE </th>
                                     </tr>
@@ -57,6 +58,7 @@ include('includes/navbar.php');
                                                     <td><?php echo $row['username']; ?></td>
                                                     <td><?php echo $row['email']; ?></td>
                                                     <td><?php echo $row['password']; ?></td>
+                                                    <td><?php echo $row['position']; ?></td>
                                                     <td>
                                                         <form action="admin_edit.php" method="post">
                                                             <input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>">
@@ -64,7 +66,7 @@ include('includes/navbar.php');
                                                         </form>
                                                     </td>
                                                     <td>
-                                                    <form action="code.php" method="post" onsubmit="return confirmDelete();">
+                                                    <form action="admin_functions.php" method="post" onsubmit="return confirmDelete();">
                                                         <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
                                                         <button type="submit" name="deletebtn" class="btn btn-danger btn-sm">DELETE</button>
                                                     </form>
@@ -113,20 +115,20 @@ include('includes/navbar.php');
                                             while ($row = mysqli_fetch_assoc($result)) {
                                     ?>
                                                 <tr>
-                                                    <td><?php echo $row['customerid']; ?></td>
-                                                    <td><?php echo $row['lastname']; ?></td>
-                                                    <td><?php echo $row['firstname']; ?></td>
-                                                    <td><?php echo $row['email']; ?></td>
-                                                    <td><?php echo $row['password']; ?></td>
+                                                    <td><?php echo $row['customer_id']; ?></td>
+                                                    <td><?php echo $row['customer_lname']; ?></td>
+                                                    <td><?php echo $row['customer_fname']; ?></td>
+                                                    <td><?php echo $row['customer_email']; ?></td>
+                                                    <td><?php echo $row['customer_password']; ?></td>
                                                     <td>
                                                         <form action="Customer_edit.php" method="post">
-                                                            <input type="hidden" name="customeredit_id" value="<?php echo $row['customerid']; ?>">
+                                                            <input type="hidden" name="customeredit_id" value="<?php echo $row['customer_id']; ?>">
                                                             <button type="submit" name="customeredit_btn" class="btn btn-success btn-sm"> EDIT</button>
                                                         </form>
                                                     </td>
                                                     <td>
-                                                        <form action="code.php" method="post" onsubmit="return confirmDelete();">
-                                                            <input type="hidden" name="customerdelete_id1" value="<?php echo $row['customerid']; ?>">
+                                                        <form action="customer_functions.php" method="post" onsubmit="return confirmDelete();">
+                                                            <input type="hidden" name="customerdelete_id1" value="<?php echo $row['customer_id']; ?>">
                                                             <button type="submit" name="customerdeletebtn" class="btn btn-danger btn-sm">DELETE</button>
                                                         </form>
                                                     </td>
@@ -151,6 +153,7 @@ include('includes/navbar.php');
                                         <th>ID </th>
                                         <th>RESTAURANT </th>
                                         <th>ADRRESS </th>
+                                        <th>CONTACT NUMBER </th>
                                         <th>EDIT </th>
                                         <th>DELETE </th>
                                     </tr>
@@ -166,14 +169,15 @@ include('includes/navbar.php');
                                                     <td><?php echo $row['restaurantid']; ?></td>
                                                     <td><?php echo $row['restaurant_name']; ?></td>
                                                     <td><?php echo $row['adrress']; ?></td>
+                                                    <td><?php echo $row['contactnumber']; ?></td>
                                                     <td>
-                                                        <form action="Product_edit.php" method="post">
+                                                        <form action="restaurant_edit.php" method="post">
                                                             <input type="hidden" name="edit_id1" value="<?php echo $row['restaurantid']; ?>">
                                                             <button type="submit" name="edit_btn1" class="btn btn-success btn-sm"> EDIT</button>
                                                         </form>
                                                     </td>
                                                     <td>
-                                                        <form action="code.php" method="post" onsubmit="return confirmDelete();">
+                                                        <form action="restaurant_functions.php" method="post" onsubmit="return confirmDelete();">
                                                             <input type="hidden" name="delete_id1" value="<?php echo $row['restaurantid']; ?>">
                                                             <button type="submit" name="deletebtn1" class="btn btn-danger btn-sm">DELETE</button>
                                                         </form>
@@ -186,7 +190,7 @@ include('includes/navbar.php');
                                         }
                                     }
 
-                                    displayProductRows($result_product);
+                                    displayProductRows($result_restaurant);
                                     ?>
                                 </tbody>
                             </table>
