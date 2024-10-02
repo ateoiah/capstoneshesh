@@ -1,15 +1,17 @@
 <?php
 session_start();
+$restaurant_id = $_SESSION['restaurant_id'];
 
 include('Security.php');
 include('includes/header.php'); 
-include('includes/navbar.php'); 
+include('includes/owner_navbar.php'); 
 ?>
 
 <?php
 // Initialize variables to avoid "undefined variable" warnings
 $itemname = '';
 $price = '';
+$description = '';
 
 // Check if there are error messages in the session
 if (isset($_SESSION['error'])) {
@@ -19,8 +21,10 @@ if (isset($_SESSION['error'])) {
 
 // Check if form values are set in the session
 if (isset($_SESSION['form_data'])) {
-    $itemname = $_SESSION['form_data']['itemname'];
+    $itemname = $_SESSION['form_data']['item_name'];
     $price = $_SESSION['form_data']['price'];
+    $description = $_SESSION['form_data']['description'];
+
     unset($_SESSION['form_data']); // Clear form data after using
 }
 
@@ -43,15 +47,23 @@ if (isset($_SESSION['form_data'])) {
 
                     <form action="owner_functions.php" method="POST" onsubmit="return confirmSubmit()">
 
+                    <input type="hidden" name="restaurant_id" value="<?php echo $restaurant_id; ?>">
+
                     <div class="form-group">
                         <label> Item Name </label>
-                        <input type="text" name="fname" class="form-control" placeholder="Enter Menu Name" 
+                        <input type="text" name="item_name" class="form-control" placeholder="Enter Menu Name" 
                         value="<?php echo htmlspecialchars($itemname); ?>"
                         required>
                     </div>
                     <div class="form-group">
+                        <label> Description </label>
+                        <input type="text" name="description" class="form-control" placeholder="Enter Menu Name" 
+                        value="<?php echo htmlspecialchars($description); ?>"
+                        required>
+                    </div>
+                    <div class="form-group">
                         <label>Price</label>
-                        <input type="text" name="lname"  class="form-control" placeholder="Enter Price" required 
+                        <input type="text" name="price"  class="form-control" placeholder="Enter Price" required 
                         value="<?php echo htmlspecialchars($price); ?>"
                         required>
                     </div>

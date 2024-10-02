@@ -52,9 +52,8 @@ echo '</div>';
             <tr>
               <th>ID</th>
               <th>Item Name</th>
+              <th>Description</th>
               <th>Price</th>
-             <!-- <th>CREATED AT</th>
-              <th>LAST LOGIN</th> -->
               <th>EDIT</th>
               <th>DELETE</th>
             </tr>
@@ -67,6 +66,7 @@ echo '</div>';
                 <tr>
                   <td><?php echo $row['menuid']; ?></td>
                   <td><?php echo $row['item_name']; ?></td>
+                  <td><?php echo $row['description']; ?></td>
                   <td><?php echo $row['price']; ?></td>
                   <td>
                     <form action="menu_edit.php" method="post">

@@ -13,7 +13,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item active">
-  <a class="nav-link" href="index.php">
+  <a class="nav-link" href="owner_dashboard.php">
     <i class="fas fa-fw fa-tachometer-alt"></i>
     <span>Dashboard</span></a>
 </li>
@@ -32,7 +32,7 @@
     <span>Menu</span></a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="Customer.php">
+  <a class="nav-link" href="#">
     <i class="fas fa-fw fa-chart-area"></i>
     <span>Order</span></a>
 </li>
