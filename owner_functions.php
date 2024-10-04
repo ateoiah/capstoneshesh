@@ -58,5 +58,3 @@ if (isset($_POST['addmenubtn'])) {
     header('Location: owner_addmenu.php');
     exit();
 }
-
-?>

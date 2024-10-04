@@ -16,18 +16,18 @@ include('includes/owner_navbar.php');
                             <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Menu</div>
                             <?php
                             if ($connection->connect_error) {
-                                die("Failed". $connection->connect_error. $connection->connect_error);
-                            }else{
+                                die("Failed" . $connection->connect_error . $connection->connect_error);
+                            } else {
                                 if (isset($_SESSION['restaurant_id'])) {
                                     $restaurant_id = $_SESSION['restaurant_id'];
-                                
+
                                     // Use $restaurant_id to fetch menu items for this specific restaurant
                                     $query = "SELECT * FROM menutb WHERE restaurant_id = ?";
                                     $stmt = $connection->prepare($query);
                                     $stmt->bind_param("i", $restaurant_id);
                                     $stmt->execute();
                                     $result = $stmt->get_result();
-                                    
+
                                     $menu_query = "SELECT COUNT(menuid) AS total_menu FROM menutb WHERE restaurant_id = ?";
                                     $stmt = $connection->prepare($menu_query);
 
@@ -35,13 +35,13 @@ include('includes/owner_navbar.php');
                                         // Bind the restaurant_id parameter (make sure to set this variable to the desired restaurant ID)
                                         $restaurant_id = $_SESSION['restaurant_id']; // Set this to the actual restaurant ID you want to query
                                         $stmt->bind_param("i", $restaurant_id); // Assuming restaurant_id is an integer
-                                    
+
                                         // Execute the prepared statement
                                         $stmt->execute();
-                                    
+
                                         // Get the result
                                         $result = $stmt->get_result();
-                                        
+
                                         // Check if there are any rows returned
                                         if ($result->num_rows > 0) {
                                             $row = $result->fetch_assoc();
@@ -50,14 +50,13 @@ include('includes/owner_navbar.php');
                                         } else {
                                             echo "<h4><strong>No menus found.</strong></h4>";
                                         }
-                                    
+
                                         // Close the statement
                                         $stmt->close();
                                     }
-                                    
                                 }
                             }
-                            
+
                             ?>
                         </div>
                         <div class="col-auto">
@@ -72,16 +71,16 @@ include('includes/owner_navbar.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Orders</div>
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Reservation</div>
                             <?php
                             if ($connection->connect_error) {
-                                die("Failed". $connection->connect_error. $connection->connect_error);
+                                die("Failed" . $connection->connect_error . $connection->connect_error);
                             }
-                            $query = "SELECT COUNT(orderid) AS total_order FROM restauranttb";
+                            $query = "SELECT COUNT(reservation_id) AS total_reservation FROM reservationtb";
                             $result = $connection->query($query);
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_assoc();
-                                $totalproduct = $row["total_product"];
+                                $totalproduct = $row["total_reservation"];
                                 echo "<h4><strong>$totalproduct</strong></h4>";
                             }
                             ?>
@@ -93,7 +92,8 @@ include('includes/owner_navbar.php');
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mb-4">
+
+        <!-- <div class="col-xl-3 col-md-6 mb-4">
             <div class="card bg-info text-white shadow">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -101,28 +101,28 @@ include('includes/owner_navbar.php');
                             <div class="text-xs font-weight-bold text-white text-uppercase mb-1">TOTAL CUSTOMER</div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                            <?php
-                                if ($connection->connect_error) {
-                                die("Failed". $connection->connect_error. $connection->connect_error);
-                            }
-                            $query = "SELECT COUNT(id) AS total_customer FROM customertb";
-                            $result = $connection->query($query);
-                            if ($result->num_rows > 0) {
-                                $row = $result->fetch_assoc();
-                                $totalcustomer = $row["total_customer"];
-                                echo "<h4><strong>$totalcustomer</strong></h4>";
-                            }
-                            ?>
+                                    <?php
+                                    if ($connection->connect_error) {
+                                        die("Failed" . $connection->connect_error . $connection->connect_error);
+                                    }
+                                    $query = "SELECT COUNT(id) AS total_customer FROM customertb";
+                                    $result = $connection->query($query);
+                                    if ($result->num_rows > 0) {
+                                        $row = $result->fetch_assoc();
+                                        $totalcustomer = $row["total_customer"];
+                                        echo "<h4><strong>$totalcustomer</strong></h4>";
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>
                         <div class="col-auto">
-                        <i class="fas fa-users fa-2x"></i>
+                            <i class="fas fa-users fa-2x"></i>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- <div class="col-xl-3 col-md-6 mb-4">
             <div class="card bg-warning text-white shadow">
                 <div class="card-body">
@@ -137,8 +137,8 @@ include('includes/owner_navbar.php');
                     </div>
                 </div>
             </div> -->
-        </div>
-    </div>   
+    </div>
+</div>
 </div>
 <?php
 include('includes/scripts.php');

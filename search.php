@@ -66,23 +66,23 @@ include('includes/navbar.php');
                                                         </form>
                                                     </td>
                                                     <td>
-                                                    <form action="admin_functions.php" method="post" onsubmit="return confirmDelete();">
-                                                        <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                                                        <button type="submit" name="deletebtn" class="btn btn-danger btn-sm">DELETE</button>
-                                                    </form>
+                                                        <form action="admin_functions.php" method="post" onsubmit="return confirmDelete();">
+                                                            <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
+                                                            <button type="submit" name="deletebtn" class="btn btn-danger btn-sm">DELETE</button>
+                                                        </form>
 
-                                                    <script>
-                                                        function confirmDelete() {
-                                                            if (confirm("Are you sure you want to delete?")) {
-                                                                return true;
-                                                            } else {
-                                                                return false; 
+                                                        <script>
+                                                            function confirmDelete() {
+                                                                if (confirm("Are you sure you want to delete?")) {
+                                                                    return true;
+                                                                } else {
+                                                                    return false;
+                                                                }
                                                             }
-                                                        }
-                                                    </script>
+                                                        </script>
                                                     </td>
                                                 </tr>
-                                            <?php
+                                    <?php
                                             }
                                         } else {
                                             echo "<tr><td colspan='6'>No Record Found</td></tr>";
@@ -90,7 +90,7 @@ include('includes/navbar.php');
                                     }
 
                                     displayAdminRows($result_admin);
-                                            ?>
+                                    ?>
                                 </tbody>
                             </table>
 
@@ -133,7 +133,7 @@ include('includes/navbar.php');
                                                         </form>
                                                     </td>
                                                 </tr>
-                                            <?php
+                                    <?php
                                             }
                                         } else {
                                             echo "<tr><td colspan='6'>No Record Found</td></tr>";
@@ -141,7 +141,7 @@ include('includes/navbar.php');
                                     }
 
                                     displayCustomerRows($result_customer);
-                                            ?>
+                                    ?>
                                 </tbody>
                             </table>
 

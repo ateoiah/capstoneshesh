@@ -3,8 +3,8 @@ session_start();
 $restaurant_id = $_SESSION['restaurant_id'];
 
 include('Security.php');
-include('includes/header.php'); 
-include('includes/owner_navbar.php'); 
+include('includes/header.php');
+include('includes/owner_navbar.php');
 ?>
 
 <?php
@@ -31,13 +31,13 @@ if (isset($_SESSION['form_data'])) {
 ?>
 
 <div class="card shadow mb-4">
-  <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Add Menu </h6>
-  </div>
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add Menu </h6>
+    </div>
 
-  <div class="card-body">
+    <div class="card-body">
 
-  <div class="card-body">
+        <div class="card-body">
             <!-- Display error message -->
             <?php if (!empty($error)): ?>
                 <div class="alert alert-danger">
@@ -45,44 +45,44 @@ if (isset($_SESSION['form_data'])) {
                 </div>
             <?php endif; ?>
 
-                    <form action="owner_functions.php" method="POST" onsubmit="return confirmSubmit()">
+            <form action="owner_functions.php" method="POST" onsubmit="return confirmSubmit()">
 
-                    <input type="hidden" name="restaurant_id" value="<?php echo $restaurant_id; ?>">
+                <input type="hidden" name="restaurant_id" value="<?php echo $restaurant_id; ?>">
 
-                    <div class="form-group">
-                        <label> Item Name </label>
-                        <input type="text" name="item_name" class="form-control" placeholder="Enter Menu Name" 
+                <div class="form-group">
+                    <label> Item Name </label>
+                    <input type="text" name="item_name" class="form-control" placeholder="Enter Menu Name"
                         value="<?php echo htmlspecialchars($itemname); ?>"
                         required>
-                    </div>
-                    <div class="form-group">
-                        <label> Description </label>
-                        <input type="text" name="description" class="form-control" placeholder="Enter Menu Name" 
+                </div>
+                <div class="form-group">
+                    <label> Description </label>
+                    <input type="text" name="description" class="form-control" placeholder="Enter Menu Name"
                         value="<?php echo htmlspecialchars($description); ?>"
                         required>
-                    </div>
-                    <div class="form-group">
-                        <label>Price</label>
-                        <input type="text" name="price"  class="form-control" placeholder="Enter Price" required 
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="text" name="price" class="form-control" placeholder="Enter Price" required
                         value="<?php echo htmlspecialchars($price); ?>"
                         required>
-                    </div>
+                </div>
 
-                    <a href="javascript:history.back()" class="btn btn-danger">CANCEL</a>
-                    <button type="submit" name="addmenubtn" class="btn btn-primary"> Add </button>
+                <a href="javascript:history.back()" class="btn btn-danger">CANCEL</a>
+                <button type="submit" name="addmenubtn" class="btn btn-primary"> Add </button>
 
-</form>
+            </form>
 
-  </div>
-  </div>
+        </div>
+    </div>
 
-<script>
-    function confirmSubmit() {
-        return confirm('Are you sure you want to add this new admin?');
-    }
-</script>
+    <script>
+        function confirmSubmit() {
+            return confirm('Are you sure you want to add this new admin?');
+        }
+    </script>
 
-<?php
-include('includes/scripts.php');
-include('includes/footer.php');
-?>
+    <?php
+    include('includes/scripts.php');
+    include('includes/footer.php');
+    ?>

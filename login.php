@@ -1,4 +1,4 @@
-<?php   
+<?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -25,9 +25,9 @@ include('Security.php'); // Include your Security script if needed
                     <form class="user" action="" method="POST">
                         <div class="form-group">
                             <label>Email Address</label>
-                            <input type="email" name="emaill" class="form-control" placeholder="Enter Email Address..." 
-                            value="<?php echo isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : ''; ?>"
-                            required>
+                            <input type="email" name="emaill" class="form-control" placeholder="Enter Email Address..."
+                                value="<?php echo isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : ''; ?>"
+                                required>
                         </div>
                         <div class="form-group">
                             <label>Password</label>
@@ -80,13 +80,13 @@ if (isset($_POST['login_btn'])) {
                 if ($result->num_rows > 0) {
                     $restaurant = $result->fetch_assoc();
                     $restaurant_id = $restaurant['restaurant_id'];  // Get the restaurant ID
-            
+
                     // Store restaurant_id in the session
                     $_SESSION['restaurant_id'] = $restaurant_id;
-            
+
                     // You can also store additional information, like restaurant name
                     $_SESSION['restaurant_name'] = $restaurant['restaurant_name'];
-            
+
                     // Redirect the user to a dashboard or menu page
                     header("Location: owner_dashboard.php");
                     exit();
@@ -112,6 +112,3 @@ if (isset($_POST['login_btn'])) {
 
 
 ?>
-
-
-

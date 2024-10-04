@@ -2,8 +2,8 @@
 session_start();
 
 include('Security.php');
-include('includes/header.php'); 
-include('includes/navbar.php'); 
+include('includes/header.php');
+include('includes/navbar.php');
 ?>
 
 <?php
@@ -29,13 +29,13 @@ if (isset($_SESSION['form_data'])) {
 ?>
 
 <div class="card shadow mb-4">
-  <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Add Admin Profile </h6>
-  </div>
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add Admin Profile </h6>
+    </div>
 
-  <div class="card-body">
+    <div class="card-body">
 
-  <div class="card-body">
+        <div class="card-body">
             <!-- Display error message -->
             <?php if (!empty($error)): ?>
                 <div class="alert alert-danger">
@@ -43,53 +43,53 @@ if (isset($_SESSION['form_data'])) {
                 </div>
             <?php endif; ?>
 
-                    <form action="customer_functions.php" method="POST" onsubmit="return confirmSubmit()">
+            <form action="customer_functions.php" method="POST" onsubmit="return confirmSubmit()">
 
-                    <div class="form-group">
-                        <label> First Name </label>
-                        <input type="text" name="fname" class="form-control" placeholder="Enter First Name" 
+                <div class="form-group">
+                    <label> First Name </label>
+                    <input type="text" name="fname" class="form-control" placeholder="Enter First Name"
                         value="<?php echo htmlspecialchars($fname); ?>"
                         required>
-                    </div>
-                    <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" name="lname"  class="form-control" placeholder="Enter Last Name" required 
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" name="lname" class="form-control" placeholder="Enter Last Name" required
                         value="<?php echo htmlspecialchars($lname); ?>"
                         required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="email" class="form-control" placeholder="Enter Email" 
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Enter Email"
                         value="<?php echo htmlspecialchars($email); ?>"
                         required>
-                    </div>
+                </div>
 
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" name="password" class="form-control" placeholder="Enter Password" required>
-                    </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Enter Password" required>
+                </div>
 
-                    
-                    <div class="form-group">
-                        <label>Confirm Password</label>
-                        <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
-                    </div>
 
-                    <a href="javascript:history.back()" class="btn btn-danger">CANCEL</a>
-                    <button type="submit" name="addcustomerbtn" class="btn btn-primary"> Add </button>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
+                </div>
 
-</form>
+                <a href="javascript:history.back()" class="btn btn-danger">CANCEL</a>
+                <button type="submit" name="addcustomerbtn" class="btn btn-primary"> Add </button>
 
-  </div>
-  </div>
+            </form>
 
-<script>
-    function confirmSubmit() {
-        return confirm('Are you sure you want to add this new admin?');
-    }
-</script>
+        </div>
+    </div>
 
-<?php
-include('includes/scripts.php');
-include('includes/footer.php');
-?>
+    <script>
+        function confirmSubmit() {
+            return confirm('Are you sure you want to add this new admin?');
+        }
+    </script>
+
+    <?php
+    include('includes/scripts.php');
+    include('includes/footer.php');
+    ?>

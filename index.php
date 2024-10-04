@@ -17,9 +17,9 @@ include('includes/navbar.php');
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Registered Admin</div>
-                            <?php   
+                            <?php
                             if ($connection->connect_error) {
-                                die("Failed". $connection->connect_error. $connection->connect_error);
+                                die("Failed" . $connection->connect_error . $connection->connect_error);
                             }
                             $query = "SELECT COUNT(id) AS total_admin FROM admintb";
                             $result = $connection->query($query);
@@ -46,29 +46,29 @@ include('includes/navbar.php');
                             <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Registered Customer</div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                            <?php
-                                if ($connection->connect_error) {
-                                die("Failed". $connection->connect_error. $connection->connect_error);
-                            }
-                            $query = "SELECT COUNT(customer_id) AS total_customer FROM customertb";
-                            $result = $connection->query($query);
-                            if ($result->num_rows > 0) {
-                                $row = $result->fetch_assoc();
-                                $totalcustomer = $row["total_customer"];
-                                echo "<h4><strong>$totalcustomer</strong></h4>";
-                            }
-                            ?>
+                                    <?php
+                                    if ($connection->connect_error) {
+                                        die("Failed" . $connection->connect_error . $connection->connect_error);
+                                    }
+                                    $query = "SELECT COUNT(customer_id) AS total_customer FROM customertb";
+                                    $result = $connection->query($query);
+                                    if ($result->num_rows > 0) {
+                                        $row = $result->fetch_assoc();
+                                        $totalcustomer = $row["total_customer"];
+                                        echo "<h4><strong>$totalcustomer</strong></h4>";
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>
                         <div class="col-auto">
-                        <i class="fas fa-users fa-2x"></i>
+                            <i class="fas fa-users fa-2x"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card bg-success text-white shadow">
                 <div class="card-body">
@@ -77,7 +77,7 @@ include('includes/navbar.php');
                             <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Registered Restaurant</div>
                             <?php
                             if ($connection->connect_error) {
-                                die("Failed". $connection->connect_error. $connection->connect_error);
+                                die("Failed" . $connection->connect_error . $connection->connect_error);
                             }
                             $query = "SELECT COUNT(restaurant_id) AS total_restaurant FROM restauranttb";
                             $result = $connection->query($query);
@@ -109,12 +109,10 @@ include('includes/navbar.php');
                     </div>
                 </div>
             </div> -->
-        </div>
-    </div>   
+    </div>
+</div>
 </div>
 <?php
 include('includes/scripts.php');
 include('includes/footer.php');
 ?>
-
-
