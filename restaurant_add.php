@@ -12,6 +12,8 @@ $restaurantname = '';
 $address = '';
 $contactnumber = '';
 $email = '';
+$owner = '';
+$restaurantimage = '';
 
 // Check if there are error messages in the session
 if (isset($_SESSION['error'])) {
@@ -25,6 +27,7 @@ if (isset($_SESSION['form_data'])) {
     $address = $_SESSION['form_data']['adrress'];
     $contactnumber = $_SESSION['form_data']['contactnumber'];
     $email = $_SESSION['form_data']['email'];
+    $owner = $_SESSION['form_data']['owner'];
 
     unset($_SESSION['form_data']); // Clear form data after using
 }
@@ -55,10 +58,24 @@ if (isset($_SESSION['form_data'])) {
                         required>
                 </div>
                 <div class="form-group">
-                    <label>Adrress</label>
+                    <label>Owner</label>
+                    <input type="text" name="owner" class="form-control" placeholder="Enter Owner Name"
+                        value="<?php echo htmlspecialchars($owner); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
                     <input type="text" name="adrress" class="form-control" placeholder="Enter Address" required
                         value="<?php echo htmlspecialchars($address); ?>"
                         required>
+                </div>
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="text" name="contactnumber" class="form-control" placeholder="Enter Contact Number"
+                        value="<?php echo htmlspecialchars($contactnumber); ?>" required pattern="^[0-9]{10,15}$" title="Please enter a valid contact number (10 to 15 digits)">
+                </div>
+                <div class="form-group">
+                    <label>Restaurant Image</label>
+                    <input type="file" name="restaurant_image" class="form-control" accept="image/*" required>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
@@ -66,9 +83,14 @@ if (isset($_SESSION['form_data'])) {
                         value="<?php echo htmlspecialchars($email); ?>" required>
                 </div>
                 <div class="form-group">
-                    <label>Contact Number</label>
-                    <input type="text" name="contactnumber" class="form-control" placeholder="Enter Contact Number"
-                        value="<?php echo htmlspecialchars($contactnumber); ?>" required pattern="^[0-9]{10,15}$" title="Please enter a valid contact number (10 to 15 digits)">
+                    <label>Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Enter Password"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="cpassword" class="form-control" placeholder="Confirm Password"
+                        required>
                 </div>
                 <a href="javascript:history.back()" class="btn btn-danger">CANCEL</a>
                 <button type="submit" name="addrestaurantbtn" class="btn btn-primary"> Add </button>
@@ -86,5 +108,4 @@ if (isset($_SESSION['form_data'])) {
 
     <?php
     include('includes/scripts.php');
-    include('includes/footer.php');
     ?>

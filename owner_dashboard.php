@@ -1,146 +1,137 @@
 <?php
+session_start();
+
 include('Security.php');
 include('includes/header.php');
 include('includes/owner_navbar.php');
+
+// Check if restaurantId is set in session
+if (!isset($_SESSION['restaurant_id'])) {
+    die('Restaurant ID is not available.');
+}
+
+// Retrieve the restaurantId from the session
+$restaurantId = $_SESSION['restaurant_id'];
+
+// Assuming $connection is your mysqli connection
+$sql = "SELECT c.menu_category_name, COUNT(o.orderId) AS total_orders
+        FROM ordertb o
+        JOIN menutb m ON o.menuId = m.menu_id
+        JOIN menu_categorytb c ON m.menu_category_id = c.menu_category_id
+        WHERE o.restaurantId = ?
+        GROUP BY c.menu_category_name
+        ORDER BY total_orders DESC";
+
+// Prepare the statement using mysqli
+$stmt = $connection->prepare($sql);
+
+// Check for any errors in preparing the statement
+if ($stmt === false) {
+    die('MySQL prepare error: ' . $connection->error);
+}
+
+// Bind the restaurantId parameter (assuming it's an integer)
+$stmt->bind_param("i", $restaurantId);
+
+// Execute the statement
+$stmt->execute();
+
+// Get the result of the query
+$result = $stmt->get_result();
+
+// Fetch the results
+$orders = [];
+$categories = [];
+$totals = [];
+$colors = [];
+$totalOrders = 0; // Variable to store the total number of orders
+
+// Define a set of colors (you can expand this list if needed)
+$availableColors = [
+    'rgba(54, 162, 235, 0.6)',
+    'rgba(255, 99, 132, 0.6)',
+    'rgba(75, 192, 192, 0.6)',
+    'rgba(153, 102, 255, 0.6)',
+    'rgba(255, 159, 64, 0.6)',
+    'rgba(255, 205, 86, 0.6)',
+    'rgba(0, 123, 255, 0.6)',
+    'rgba(40, 167, 69, 0.6)',
+    'rgba(220, 53, 69, 0.6)',
+    'rgba(23, 162, 184, 0.6)'
+];
+
+$colorIndex = 0;
+
+while ($row = $result->fetch_assoc()) {
+    $orders[] = $row;
+    $categories[] = $row['menu_category_name'];
+    $totals[] = $row['total_orders'];
+    // Add the total orders for this category to the totalOrders variable
+    $totalOrders += $row['total_orders'];
+    // Assign a color to each category
+    $colors[] = $availableColors[$colorIndex % count($availableColors)];
+    $colorIndex++;
+}
+
+// Close the statement
+$stmt->close();
 ?>
-<div class="container-fluid">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+
+<!-- Include the Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container mt-4">
+    <h2>Orders by Category</h2>
+
+    <!-- Display the total orders in a Bootstrap alert -->
+    <div class="alert alert-info" role="alert">
+        <strong>Total Orders: </strong> <?php echo number_format($totalOrders); ?>
     </div>
-    <div class="row">
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card bg-primary text-white shadow">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Menu</div>
-                            <?php
-                            if ($connection->connect_error) {
-                                die("Failed" . $connection->connect_error . $connection->connect_error);
-                            } else {
-                                if (isset($_SESSION['restaurant_id'])) {
-                                    $restaurant_id = $_SESSION['restaurant_id'];
 
-                                    // Use $restaurant_id to fetch menu items for this specific restaurant
-                                    $query = "SELECT * FROM menutb WHERE restaurant_id = ?";
-                                    $stmt = $connection->prepare($query);
-                                    $stmt->bind_param("i", $restaurant_id);
-                                    $stmt->execute();
-                                    $result = $stmt->get_result();
+    <!-- Create a canvas element where the chart will be rendered with smaller width and height -->
+    <canvas id="ordersChart" width="300" height="150"></canvas> <!-- Smaller canvas size -->
 
-                                    $menu_query = "SELECT COUNT(menuid) AS total_menu FROM menutb WHERE restaurant_id = ?";
-                                    $stmt = $connection->prepare($menu_query);
+    <script>
+        // Get the data from PHP
+        var categories = <?php echo json_encode($categories); ?>;
+        var totals = <?php echo json_encode($totals); ?>;
+        var colors = <?php echo json_encode($colors); ?>;
 
-                                    if ($stmt) {
-                                        // Bind the restaurant_id parameter (make sure to set this variable to the desired restaurant ID)
-                                        $restaurant_id = $_SESSION['restaurant_id']; // Set this to the actual restaurant ID you want to query
-                                        $stmt->bind_param("i", $restaurant_id); // Assuming restaurant_id is an integer
-
-                                        // Execute the prepared statement
-                                        $stmt->execute();
-
-                                        // Get the result
-                                        $result = $stmt->get_result();
-
-                                        // Check if there are any rows returned
-                                        if ($result->num_rows > 0) {
-                                            $row = $result->fetch_assoc();
-                                            $totalmenu = $row["total_menu"];
-                                            echo "<h4><strong>$totalmenu</strong></h4>";
-                                        } else {
-                                            echo "<h4><strong>No menus found.</strong></h4>";
-                                        }
-
-                                        // Close the statement
-                                        $stmt->close();
-                                    }
-                                }
+        // Chart.js configuration for a bar chart
+        var ctx = document.getElementById('ordersChart').getContext('2d');
+        var ordersChart = new Chart(ctx, {
+            type: 'bar', // Type of chart (bar chart)
+            data: {
+                labels: categories, // Category names (from PHP)
+                datasets: [{
+                    data: totals, // Total orders for each category (from PHP)
+                    backgroundColor: colors, // Different colors for each bar
+                    borderColor: colors.map(color => color.replace('0.6', '1')), // Same color for border but with opacity 1
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false // Remove the legend
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true, // Start the y-axis from 0
+                        ticks: {
+                            stepSize: 1, // Ensure each tick is an integer
+                            callback: function(value) {
+                                return Number(value).toFixed(0); // Round the value to the nearest integer
                             }
-
-                            ?>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-users fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card bg-success text-white shadow">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Reservation</div>
-                            <?php
-                            if ($connection->connect_error) {
-                                die("Failed" . $connection->connect_error . $connection->connect_error);
-                            }
-                            $query = "SELECT COUNT(reservation_id) AS total_reservation FROM reservationtb";
-                            $result = $connection->query($query);
-                            if ($result->num_rows > 0) {
-                                $row = $result->fetch_assoc();
-                                $totalproduct = $row["total_reservation"];
-                                echo "<h4><strong>$totalproduct</strong></h4>";
-                            }
-                            ?>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-shopping-basket fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card bg-info text-white shadow">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">TOTAL CUSTOMER</div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <?php
-                                    if ($connection->connect_error) {
-                                        die("Failed" . $connection->connect_error . $connection->connect_error);
-                                    }
-                                    $query = "SELECT COUNT(id) AS total_customer FROM customertb";
-                                    $result = $connection->query($query);
-                                    if ($result->num_rows > 0) {
-                                        $row = $result->fetch_assoc();
-                                        $totalcustomer = $row["total_customer"];
-                                        echo "<h4><strong>$totalcustomer</strong></h4>";
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-users fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card bg-warning text-white shadow">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                          <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Pending Orders</div>
-                            <?php echo "<h4><strong>21</strong></h4>" ?>
-                          </div>
-                          <div class="col-auto">
-                            <i class="fas fa-hourglass-half fa-2x"></i>
-                          </div>
-                    </div>
-                </div>
-            </div> -->
-    </div>
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </div>
-</div>
+
 <?php
 include('includes/scripts.php');
-include('includes/footer.php');
 ?>

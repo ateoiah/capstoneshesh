@@ -21,7 +21,7 @@ include('includes/navbar.php');
                             if ($connection->connect_error) {
                                 die("Failed" . $connection->connect_error . $connection->connect_error);
                             }
-                            $query = "SELECT COUNT(id) AS total_admin FROM admintb";
+                            $query = "SELECT COUNT(admin_id) AS total_admin FROM admintb";
                             $result = $connection->query($query);
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_assoc();
@@ -50,7 +50,7 @@ include('includes/navbar.php');
                                     if ($connection->connect_error) {
                                         die("Failed" . $connection->connect_error . $connection->connect_error);
                                     }
-                                    $query = "SELECT COUNT(customer_id) AS total_customer FROM customertb";
+                                    $query = "SELECT COUNT(customerid) AS total_customer FROM customertb";
                                     $result = $connection->query($query);
                                     if ($result->num_rows > 0) {
                                         $row = $result->fetch_assoc();

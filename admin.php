@@ -4,106 +4,105 @@ session_start();
 include('Security.php');
 include('includes/header.php');
 include('includes/navbar.php');
-
 ?>
 
-
 <div class="container-fluid">
-  <div class="card shadow mb-4">
-    <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Admins Data
-        <a href="add_admin.php" class="btn btn-primary">
+  <div class="card shadow mb-0">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h6 class="m-0 font-weight-bold text-primary">
+        Admins Data
+        <a href="add_admin.php" class="btn btn-primary ml-2">
           Add Admin
         </a>
       </h6>
+      <form class="form-inline my-2 my-md-0 mw-100 navbar-search" action="searchAdmin.php" method="GET">
+        <div class="input-group">
+          <input type="text" class="form-control bg-light border-0 small" name="query" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+              <i class="fas fa-search fa-sm"></i>
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
+<?php
+echo '<div class="container mt-1">';
+
+if (isset($_SESSION['success'])) {
+  echo '<div class="text-center mt-4" style="color: green;">' . $_SESSION['success'] . '</div>';
+
+  unset($_SESSION['success']);
+}
+
+if (isset($_SESSION['status'])) {
+  echo '<div class="text-center" style="color: red;">' . $_SESSION['status'] . '</div>';
+  unset($_SESSION['status']);
+}
+
+echo '</div>';
+
+$sql = "SELECT admintb.admin_id, admintb.admin_username, admintb.admin_email, admintb.admin_password FROM admintb";
+$result = $connection->query($sql);
+
+$admins = [];
+
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $admins[] = [
+      'id' => $row['admin_id'],
+      'username' => $row['admin_username'],
+      'email' => $row['admin_email'],
+      'password' => $row['admin_password'],
+    ];
+  }
+}
+?>
+
 <div class="card-body">
-
-  <?php
-  echo '<div class="container mt-5">';
-
-  if (isset($_SESSION['success'])) {
-    echo '<div class="alert alert-success text-center" style="color: green;">' . $_SESSION['success'] . '</div>';
-    unset($_SESSION['success']); // Unset the success message after displaying
-  }
-
-  if (isset($_SESSION['status'])) {
-    echo '<div class="alert alert-danger text-center" style="color: red;">' . $_SESSION['status'] . '</div>';
-    unset($_SESSION['status']); // Unset the error message after displaying
-  }
-
-  echo '</div>';
-  ?>
-
-  <?php
-  $query = "SELECT * FROM admintb";
-  $query_run = mysqli_query($connection, $query);
-  ?>
-
-  <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
-    <thead class="thead-dark">
-      <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Password</th>
-        <!-- <th>CREATED AT</th>
-              <th>LAST LOGIN</th> -->
-        <th>Role</th>
-        <th>EDIT</th>
-        <th>DELETE</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php
-      if (mysqli_num_rows($query_run) > 0) {
-        while ($row = mysqli_fetch_assoc($query_run)) {
-      ?>
+  <?php if (!empty($admins)): ?>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Actions</th> <!-- New column for actions -->
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($admins as $admin): ?>
           <tr>
-            <td><?php echo $row['id']; ?></td>
-            <td><?php echo $row['username']; ?></td>
-            <td><?php echo $row['email']; ?></td>
-            <td><?php echo $row['password']; ?></td>
-            <td><?php echo $row['position']; ?></td>
+            <td><?php echo ($admin['id']); ?></td>
+            <td><?php echo ($admin['username']); ?></td>
+            <td><?php echo ($admin['email']); ?></td>
+            <td><?php echo ($admin['password']); ?></td>
             <td>
-              <form action="admin_edit.php" method="post">
-                <input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>">
-                <button type="submit" name="edit_btn" class="btn btn-success">EDIT</button>
-              </form>
-            </td>
-            <td>
-              <form action="admin_functions.php" method="post" onsubmit="return confirmDelete();">
-                <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                <button type="submit" name="deletebtn" class="btn btn-danger">DELETE</button>
+              <!-- Edit Button -->
+              <form action='admin_edit.php' method='post' style='display:inline;'>
+                <input type='hidden' name='adminId' value='<?php echo $admin['id']; ?>'>
+                <button type='submit' name='editAdmin' class='btn btn-success btn-sm' onclick='return confirm("Are you sure you want to edit this item?")'>Edit</button>
               </form>
 
-              <script>
-                function confirmDelete() {
-                  if (confirm("Are you sure you want to delete?")) {
-                    return true;
-                  } else {
-                    return false;
-                  }
-                }
-              </script>
+              <!-- Delete Button -->
+              <form action='admin_functions.php' method='post' style='display:inline;'>
+                <input type='hidden' name='adminId' value='<?php echo $admin['id']; ?>'>
+                <button type='submit' name='deleteAdmin' class='btn btn-danger btn-sm' onclick='return confirm("Are you sure you want to delete this item?")'>Delete</button>
+              </form>
             </td>
           </tr>
-      <?php
-        }
-      } else {
-        echo "<tr><td colspan='6'>No Record Found</td></tr>";
-      }
-      ?>
-    </tbody>
-  </table>
-</div>
-</div>
-</div>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  <?php else: ?>
+    <p>No admins found.</p>
+  <?php endif; ?>
 </div>
 
 <?php
 include('includes/scripts.php');
-include('includes/footer.php');
 ?>

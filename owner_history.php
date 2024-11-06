@@ -8,38 +8,12 @@ include('includes/owner_navbar.php');
 
 <div class="container-fluid">
     <div class="card shadow mb-0">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">
-                Reservations List
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Reservation History
             </h6>
-            <form class="form-inline my-2 my-md-0 mw-100 navbar-search" action="searchReservation.php" method="GET">
-                <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" name="query" placeholder="Search for reservation ID" aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">
-                            <img src="icons\magnifying-glass.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
-                        </button>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
 </div>
-<?php
-echo '<div class="container mt-1">';
-
-if (isset($_SESSION['success'])) {
-    echo '<<div class="text-center mt-4" style="color: green;">' . $_SESSION['success'] . '</div>';
-    unset($_SESSION['success']); // Unset the success message after displaying
-}
-
-if (isset($_SESSION['status'])) {
-    echo '<div class="alert alert-danger text-center" style="color: red;">' . $_SESSION['status'] . '</div>';
-    unset($_SESSION['status']); // Unset the error message after displaying
-}
-
-echo '</div>';
-?>
 
 <?php
 
@@ -51,7 +25,7 @@ $sql = "SELECT reservationtb.reservationId, reservationtb.guestCount, reservatio
                 JOIN restauranttb ON reservationtb.restaurantId = restauranttb.restaurant_id
                 JOIN statustb ON reservationtb.statusId = statustb.statusId
                 WHERE reservationtb.restaurantId = ?
-                AND statustb.statusName = 'Pending'";
+                AND (statustb.statusName = 'Completed' OR statustb.statusName = 'Cancelled')";
 
 $stmt = $connection->prepare($sql);
 $stmt->bind_param("i", $restaurantId); // Assuming restaurant_id is an integer
@@ -99,7 +73,7 @@ if ($result->num_rows > 0) {
                         <td>
                             <form action="owner_functions.php" method="post" style="display:inline;">
                                 <input type="hidden" name="reservationId" value="<?php echo ($reservation['id']); ?>">
-                                <button type="submit" name="completeReservation" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to complete this reservation?')">Complete</button>
+                                <button type="submit" name="completeReservation" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to complete this reservation?')">Delete</button>
                             </form>
                         </td>
                     </tr>
@@ -109,7 +83,7 @@ if ($result->num_rows > 0) {
     <?php else: ?>
         <div class="col-12">
             <div class="alert alert-warning text-center" role="alert">
-                No reservations found.
+                History Empty.
             </div>
         </div>
     <?php endif; ?>

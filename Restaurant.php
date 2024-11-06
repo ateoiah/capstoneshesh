@@ -6,108 +6,125 @@ include('includes/header.php');
 include('includes/navbar.php');
 ?>
 
-
-
 <div class="container-fluid">
-  <div class="card shadow mb-4">
-    <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Restaurants Data
-        <a href="restaurant_add.php" class="btn btn-primary">
+  <div class="card shadow mb-0">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h6 class="m-0 font-weight-bold text-primary">
+        Restaurants Data
+        <a href="add_admin.php" class="btn btn-primary ml-2">
           Add Restaurant
         </a>
       </h6>
+      <form class="form-inline my-2 my-md-0 mw-100 navbar-search" action="searchRestaurant.php" method="GET">
+        <div class="input-group">
+          <input type="text" class="form-control bg-light border-0 small" name="query" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+              <i class="fas fa-search fa-sm"></i>
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
+<?php
+echo '<div class="container mt-1">';
+
+if (isset($_SESSION['success'])) {
+  echo '<div class="alert alert-success text-center" style="color: green;">' . $_SESSION['success'] . '</div>';
+  unset($_SESSION['success']); // Unset the success message after displaying
+}
+
+if (isset($_SESSION['status'])) {
+  echo '<div class="alert alert-danger text-center" style="color: red;">' . $_SESSION['status'] . '</div>';
+  unset($_SESSION['status']); // Unset the error message after displaying
+}
+
+echo '</div>';
+
+$sql = "SELECT restauranttb.restaurant_id , restauranttb.restaurant_name, restauranttb.restaurant_address,
+   restauranttb.restaurant_logo, restauranttb.restaurant_email , restauranttb.restaurant_password, restauranttb.restaurant_owner, 
+   restauranttb.restaurant_phoneNumber
+   FROM restauranttb";
+$result = $connection->query($sql);
+
+$restaurants = [];
+
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $restaurants[] = [
+      'id' => $row['restaurant_id'],
+      'restaurantName' => $row['restaurant_name'],
+      'restaurantAddress' => $row['restaurant_address'],
+      'restaurantLogo' => $row['restaurant_logo'],
+      'restaurantEmail' => $row['restaurant_email'],
+      'restaurantOwner' => $row['restaurant_owner'],
+      'restaurantPhone' => $row['restaurant_phoneNumber'],
+    ];
+  }
+}
+?>
+
+
 <div class="card-body">
-
-  <?php
-  echo '<div class="container mt-5">';
-
-  if (isset($_SESSION['success'])) {
-    echo '<div class="alert alert-success text-center" style="color: green;">' . $_SESSION['success'] . '</div>';
-    unset($_SESSION['success']); // Unset the success message after displaying
-  }
-
-  if (isset($_SESSION['status'])) {
-    echo '<div class="alert alert-danger text-center" style="color: red;">' . $_SESSION['status'] . '</div>';
-    unset($_SESSION['status']); // Unset the error message after displaying
-  }
-
-  echo '</div>';
-  ?>
-
-  <?php
-  $query = "SELECT * FROM restauranttb";
-  $query_run = mysqli_query($connection, $query);
-  ?>
-
-  <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
-    <thead class="thead-dark">
-      <tr>
-        <th>ID </th>
-        <th>Restaurant Name </th>
-        <th>Address </th>
-        <th>Email </th>
-        <th>Contact Number </th>
-        <th>EDIT </th>
-        <th>DELETE </th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php
-      if (mysqli_num_rows($query_run) > 0) {
-        while ($row = mysqli_fetch_assoc($query_run)) {
-      ?>
-
+  <?php if (!empty($restaurants)): ?>
+    <table class="table table-striped ">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Owner</th>
+          <th>Address</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Logo</th>
+          <th>Actions</th> <!-- New column for actions -->
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($restaurants as $restaurant): ?>
           <tr>
-            <td> <?php echo $row['restaurant_id']; ?></td>
-            <td> <?php echo $row['restaurant_name']; ?></td>
-            <td> <?php echo $row['address']; ?></td>
-            <td> <?php echo $row['restaurant_email']; ?></td>
-            <td> <?php echo $row['contactnumber']; ?></td>
 
-
+            <td><?php echo ($restaurant['id']); ?></td>
+            <td><?php echo ($restaurant['restaurantName']); ?></td>
+            <td><?php echo ($restaurant['restaurantOwner']); ?></td>
+            <td><?php echo ($restaurant['restaurantAddress']); ?></td>
+            <td><?php echo ($restaurant['restaurantEmail']); ?></td>
+            <td><?php echo ($restaurant['restaurantPhone']); ?></td>
             <td>
-              <form action="restaurant_edit.php" method="post">
-                <input type="hidden" name="edit_id1" value="<?php echo $row['restaurant_id']; ?>">
-                <button type="submit" name="edit_btn1" class="btn btn-success"> EDIT</button>
-              </form>
+              <?php if ($restaurant['restaurantLogo']): // Check if there is an image 
+              ?>
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($restaurant['restaurantLogo']); ?>" alt="Restaurant Image" style="width:100px;height:auto;" />
+              <?php else: ?>
+                No Image
+              <?php endif; ?>
             </td>
             <td>
-              <form action="restaurant_functions.php" method="post" onsubmit="return confirmDelete();">
-                <input type="hidden" name="delete_id1" value="<?php echo $row['restaurant_id']; ?>">
-                <button type="submit" name="restaurant_delete" class="btn btn-danger">DELETE</button>
+              <!-- Edit Button -->
+              <form action='edit_restaurant.php' method='post' style='display:inline;'>
+                <input type='hidden' name='restaurantId' value='<?php echo $restaurant['id']; ?>'>
+                <button type='submit' name='editrestaurant' class='btn btn-success btn-sm' onclick='return confirm("Are you sure you want to edit this item?")'>Edit</button>
               </form>
 
-              <script>
-                function confirmDelete() {
-                  if (confirm("Are you sure you want to delete?")) {
-                    return true;
-                  } else {
-                    return false;
-                  }
-                }
-              </script>
+              <!-- Delete Button -->
+              <form action='restaurant_functions.php' method='post' style='display:inline;'>
+                <input type='hidden' name='restaurantId' value='<?php echo $restaurant['id']; ?>'>
+                <button type='submit' name='deleterestaurant' class='btn btn-danger btn-sm' onclick='return confirm("Are you sure you want to delete this item?")'>Delete</button>
+              </form>
             </td>
           </tr>
-      <?php
-        }
-      } else {
-        echo "No Record Found";
-      }
-      ?>
-
-    </tbody>
-  </table>
-
-</div>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  <?php else: ?>
+    <p>No restau$restaurants found.</p>
+  <?php endif; ?>
 </div>
 </div>
 
-</div>
 
 <?php
 include('includes/scripts.php');
-include('includes/footer.php');
 ?>

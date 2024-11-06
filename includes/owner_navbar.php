@@ -9,61 +9,59 @@
 
 
      <!-- Divider -->
-     <hr class="sidebar-divider my-0">
 
-     <!-- Nav Item - Dashboard -->
-     <li class="nav-item active">
-       <a class="nav-link" href="owner_dashboard.php">
-         <i class="fas fa-fw fa-tachometer-alt"></i>
-         <span>Dashboard</span></a>
-     </li>
 
-     <!-- Divider -->
      <hr class="sidebar-divider">
+     <!-- Nav Item - Dashboard -->
+     <!-- Navigation -->
+     <ul class="navbar-nav">
+       <li class="nav-item">
+         <a class="nav-link" href="owner_dashboard.php">
+           <img src="icons\data-analysis.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
+           <span>Dashboard</span>
+         </a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="owner_menu.php">
+           <img src="icons\fast-food.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
+           <span>Menu</span>
+         </a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="owner_reservation.php">
+           <img src="icons\booking.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
+           <span>Reservations</span>
+         </a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="owner_order.php">
+           <img src="icons\order.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
+           <span>Orders</span>
+         </a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="owner_history.php">
+           <img src="icons\history.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
+           <span>History</span>
+         </a>
+       </li>
+     </ul>
 
-     <!-- Heading -->
-     <div class="sidebar-heading">
-       Interface
-     </div>
+     <script>
+       document.addEventListener("DOMContentLoaded", function() {
+         const currentPath = location.pathname.split("/").pop(); // Get the current filename
+         const navLinks = document.querySelectorAll(".nav-item .nav-link"); // Select all nav links
 
-     <li class="nav-item">
-       <a class="nav-link" href="owner_menu.php">
-         <i class="fas fa-fw fa-chart-area"></i>
-         <span>Menu</span></a>
-     </li>
-     <li class="nav-item">
-       <a class="nav-link" href="owner_reservation.php">
-         <i class="fas fa-fw fa-chart-area"></i>
-         <span>Reservation</span></a>
-     </li>
+         navLinks.forEach(link => {
+           if (link.getAttribute("href") === currentPath) {
+             link.closest(".nav-item").classList.add("active"); // Add active class to nav-item
+           } else {
+             link.closest(".nav-item").classList.remove("active"); // Remove active from non-matching items
+           }
+         });
+       });
+     </script>
 
-     <li class="nav-item">
-       <a class="nav-link" href="#">
-         <i class="fas fa-fw fa-chart-area"></i>
-         <span>Reports</span></a>
-     </li>
-
-     <!-- Divider 
-<hr class="sidebar-divider">
--->
-     <!-- Heading -->
-
-     <!-- Nav Item - Pages Collapse Menu 
-<li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-    <i class="fas fa-fw fa-folder"></i>
-    <span>Pages</span>
-  </a>
-  <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
-      <h6 class="collapse-header">USER LOGIN AND REGISTER</h6>
-      <a class="collapse-item" href="userlogin.php">User Login</a>
-      <a class="collapse-item" href="usersignup.php">User Register</a>
-  </div>
-</li>
--->
-     <!-- Divider 
-<hr class="sidebar-divider d-none d-md-block"> -->
 
      <!-- Sidebar Toggler (Sidebar) -->
      <div class="text-center d-none d-md-inline">
@@ -86,19 +84,6 @@
          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
            <i class="fa fa-bars"></i>
          </button>
-
-         <!-- Topbar Search -->
-         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="search.php" method="GET">
-           <div class="input-group">
-             <input type="text" class="form-control bg-light border-0 small" name="query" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-             <div class="input-group-append">
-               <button class="btn btn-primary" type="submit">
-                 <i class="fas fa-search fa-sm"></i>
-               </button>
-             </div>
-           </div>
-         </form>
-
 
          <!-- Topbar Navbar -->
          <ul class="navbar-nav ml-auto">
@@ -133,7 +118,8 @@
            <!-- Nav Item - User Information -->
            <li class="nav-item dropdown no-arrow d-flex align-items-center">
              <span class="mr-2 text-gray-600 large">
-               <?php echo $_SESSION['username']; ?>
+               <?php //echo $_SESSION['username']; 
+                ?>
              </span>
              <div class="d-flex justify-content-end">
                <button class="btn btn-primary ml-2" onclick="confirmLogout()">

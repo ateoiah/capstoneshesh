@@ -7,103 +7,71 @@ include('includes/navbar.php');
 ?>
 
 <div class="container-fluid">
-  <div class="card shadow mb-4">
-    <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Customers Data
-        <a href="customer_add.php" class="btn btn-primary">
-          Add Customer
-        </a>
+  <div class="card shadow mb-0">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h6 class="m-0 font-weight-bold text-primary">
+        Customers Data
       </h6>
+      <form class="form-inline my-2 my-md-0 mw-100 navbar-search" action="searchCustomer.php" method="GET">
+        <div class="input-group">
+          <input type="text" class="form-control bg-light border-0 small" name="query" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+              <i class="fas fa-search fa-sm"></i>
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
+<?php
+$sql = "SELECT customertb.customerid, customertb.firstname, customertb.lastname, customertb.email FROM customertb";
+$result = $connection->query($sql);
+
+
+$customers = [];
+
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $customers[] = [
+      'id' => $row['customerid'],
+      'firstName' => $row['firstname'],
+      'lastName' => $row['lastname'],
+      'email' => $row['email'],
+    ];
+  }
+}
+?>
+
+
 <div class="card-body">
 
-  <?php
-  echo '<div class="container mt-5">';
-
-  if (isset($_SESSION['success'])) {
-    echo '<div class="alert alert-success text-center" style="color: green;">' . $_SESSION['success'] . '</div>';
-    unset($_SESSION['success']); // Unset the success message after displaying
-  }
-
-  if (isset($_SESSION['status'])) {
-    echo '<div class="alert alert-danger text-center" style="color: red;">' . $_SESSION['status'] . '</div>';
-    unset($_SESSION['status']); // Unset the error message after displaying
-  }
-
-  echo '</div>';
-  ?>
-
-
-
-  <?php
-  $query = "SELECT * FROM customertb";
-  $query_run = mysqli_query($connection, $query);
-  ?>
-
-  <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
-    <thead class="thead-dark">
-      <tr>
-        <th>ID</th>
-        <th>FIRST NAME</th>
-        <th>LAST NAME</th>
-        <th>EMAIL</th>
-        <th>PASSWORD</th>
-        <th>EDIT</th>
-        <th>DELETE</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php
-      if (mysqli_num_rows($query_run) > 0) {
-        while ($row = mysqli_fetch_assoc($query_run)) {
-      ?>
-
+  <?php if (!empty($customers)): ?>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($customers as $customer): ?>
           <tr>
-            <td> <?php echo $row['customer_id']; ?></td>
-            <td> <?php echo $row['customer_fname']; ?></td>
-            <td> <?php echo $row['customer_lname']; ?></td>
-            <td> <?php echo $row['customer_email']; ?></td>
-            <td> <?php echo $row['customer_password']; ?></td>
-
-            <td>
-              <form action="Customer_edit.php" method="post">
-                <input type="hidden" name="customeredit_id" value="<?php echo $row['customer_id']; ?>">
-                <button type="submit" name="customeredit_btn" class="btn btn-success"> EDIT</button>
-              </form>
-            </td>
-            <td>
-              <form action="customer_functions.php" method="post" onsubmit="return confirmDelete();">
-                <input type="hidden" name="customerdelete_id" value="<?php echo $row['customer_id']; ?>">
-                <button type="submit" name="customerdeletebtn" class="btn btn-danger">DELETE</button>
-              </form>
-
-              <script>
-                function confirmDelete() {
-                  if (confirm("Are you sure you want to delete?")) {
-                    return true;
-                  } else {
-                    return false;
-                  }
-                }
-              </script>
-            </td>
+            <td><?php echo ($customer['id']); ?></td>
+            <td><?php echo ($customer['firstName']); ?></td>
+            <td><?php echo ($customer['lastName']); ?></td>
+            <td><?php echo ($customer['email']); ?></td>
           </tr>
-      <?php
-        }
-      } else {
-        echo "No Record Found";
-      }
-      ?>
-
-    </tbody>
-  </table>
-
-</div>
-</div>
-</div>
-
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  <?php else: ?>
+    <p>No customers found.</p>
+  <?php endif; ?>
 </div>
 
 <?php

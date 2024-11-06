@@ -33,6 +33,12 @@ include('Security.php'); // Include your Security script if needed
                             <label>Password</label>
                             <input type="password" name="passwordd" class="form-control" placeholder="Password" required>
                         </div>
+                        <!-- Admin Checkbox -->
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" name="is_admin" id="is_admin"
+                                <?php echo isset($_SESSION['is_admin']) && $_SESSION['is_admin'] ? 'checked' : ''; ?>>
+                            <label class="form-check-label" for="is_admin">Login as Admin</label>
+                        </div>
                         <button type="submit" name="login_btn" class="btn btn-primary float-right" style="width: 180px;">Login</button>
                     </form>
                 </div>
@@ -44,71 +50,120 @@ include('Security.php'); // Include your Security script if needed
 include('includes/scripts.php');
 ?>
 <?php
-include('database/dbconfig.php'); // Include the database connection script
-
+/*
 if (isset($_POST['login_btn'])) {
     $email_login = $_POST['emaill'];
     $password_login = $_POST['passwordd'];
+    $is_admin = isset($_POST['is_admin']) ? true : false;
 
-    // Prepare the SQL query to prevent SQL Injection
-    $stmt = $connection->prepare("SELECT * FROM admintb WHERE email = ?");
-    $stmt->bind_param("s", $email_login);
+    if ($is_admin) {
+        // Admin login process
+        $stmt = $connection->prepare("SELECT * FROM admintb WHERE email = ?");
+        $stmt->bind_param("s", $email_login);
+    } else {
+        // Owner login process
+        $stmt = $connection->prepare("SELECT * FROM restauranttb WHERE restaurant_email = ?");
+        $stmt->bind_param("s", $email_login);
+    }
+
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
-        // Fetch the hashed password and role
-        $hashed_password = $row['password'];
-        $role = $row['position'];
+        // Fetch the hashed password and role (admin or owner)
+        $hashed_password = $is_admin ? $row['password'] : $row['restaurant_password'];
+
 
         // Verify the password
         if (password_verify($password_login, $hashed_password)) {
             // Store user information in session
             $_SESSION['username'] = $email_login;
-            $_SESSION['position'] = $role; // Store role in session
 
-            // Redirect based on role
-            if ($role === 'admin') {
+            if ($is_admin) {
+                // Redirect admin to dashboard
                 header('Location: index.php?status=success-logged-in=admin');
-                exit();
             } else {
-                $query = "SELECT restaurant_id, restaurant_name FROM restauranttb WHERE restaurant_email = ?";
-                $stmt = $connection->prepare($query);
-                $stmt->bind_param("s", $email_login);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                if ($result->num_rows > 0) {
-                    $restaurant = $result->fetch_assoc();
-                    $restaurant_id = $restaurant['restaurant_id'];  // Get the restaurant ID
-
-                    // Store restaurant_id in the session
-                    $_SESSION['restaurant_id'] = $restaurant_id;
-
-                    // You can also store additional information, like restaurant name
-                    $_SESSION['restaurant_name'] = $restaurant['restaurant_name'];
-
-                    // Redirect the user to a dashboard or menu page
-                    header("Location: owner_dashboard.php");
-                    exit();
-                }
+                // Store restaurant-specific information in session for owners
+                $restaurant_id = $row['restaurant_id'];
+                $_SESSION['restaurant_id'] = $restaurant_id;
+                $_SESSION['restaurant_name'] = $row['restaurant_name'];
+                // Redirect owner to dashboard
+                header("Location: owner_dashboard.php");
             }
-            exit(); // Ensure no further code is executed after redirection
+            exit();
         } else {
             $_SESSION['status'] = 'Invalid Email or Password!';
             $_SESSION['status_code'] = 'error';
-            $_SESSION['email'] = $email_login; // Save email to session
+            $_SESSION['email'] = $email_login;
             header('Location: login.php');
             exit();
         }
     } else {
         $_SESSION['status'] = 'Invalid Email or Password!';
         $_SESSION['status_code'] = 'error';
-        $_SESSION['email'] = $email_login; // Save email to session
+        $_SESSION['email'] = $email_login;
         header('Location: login.php');
         exit();
     }
+
     $stmt->close();
 }
+    */
+if (isset($_POST['login_btn'])) {
+    $email_login = $_POST['emaill'];
+    $password_login = $_POST['passwordd'];
+    $is_admin = isset($_POST['is_admin']) ? true : false;
 
+    if ($is_admin) {
+        // Admin login process
+        $stmt = $connection->prepare("SELECT * FROM admintb WHERE admin_email = ?");
+        $stmt->bind_param("s", $email_login);
+    } else {
+        // Owner login process
+        $stmt = $connection->prepare("SELECT * FROM restauranttb WHERE restaurant_email = ?");
+        $stmt->bind_param("s", $email_login);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($row = $result->fetch_assoc()) {
+        // Fetch the stored password (no hash verification)
+        $stored_password = $is_admin ? $row['admin_password'] : $row['restaurant_password'];
+
+        // Directly compare the passwords
+        if ($password_login === $stored_password) {
+            // Store user information in session
+            $_SESSION['username'] = $email_login;
+
+            if ($is_admin) {
+                // Redirect admin to dashboard
+                header('Location: index.php?status=success-logged-in=admin');
+            } else {
+                // Store restaurant-specific information in session for owners
+                $restaurant_id = $row['restaurant_id'];
+                $_SESSION['restaurant_id'] = $restaurant_id;
+                $_SESSION['restaurant_name'] = $row['restaurant_name'];
+                // Redirect owner to dashboard
+                header("Location: owner_dashboard.php");
+            }
+            exit();
+        } else {
+            $_SESSION['status'] = 'Invalid Email or Password!';
+            $_SESSION['status_code'] = 'error';
+            $_SESSION['email'] = $email_login;
+            header('Location: login.php');
+            exit();
+        }
+    } else {
+        $_SESSION['status'] = 'Invalid Email or Password!';
+        $_SESSION['status_code'] = 'error';
+        $_SESSION['email'] = $email_login;
+        header('Location: login.php');
+        exit();
+    }
+
+    $stmt->close();
+}
 
 ?>
