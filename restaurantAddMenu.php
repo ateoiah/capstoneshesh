@@ -74,10 +74,15 @@ if (isset($_SESSION['form_data'])) {
                     <label for="menuCategory">Menu Category</label>
                     <select name="menu_category" id="menuCategory" class="form-control" required>
                         <option value="" disabled selected>Select Category</option>
+                        <option value="1">Flavored Wings</option>
                         <option value="2">Pork</option>
                         <option value="3">Chicken</option>
                         <option value="4">Beef</option>
                         <option value="5">Shrimp</option>
+                        <option value="6">Fish</option>
+                        <option value="7">Squid</option>
+                        <option value="8">Pizzas</option>
+                        <option value="9">Other offers</option>
                     </select>
                 </div>
                 <div class="form-group">
