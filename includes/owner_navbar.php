@@ -112,7 +112,8 @@
 
            <?php
             // Check if the username session variable is set
-            $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Default value if not set
+            $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+            echo $username; // Default value if not set
             ?>
 
            <!-- Nav Item - User Information -->

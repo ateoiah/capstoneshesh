@@ -138,7 +138,7 @@ if (isset($_POST['login_btn'])) {
 
             if ($is_admin) {
                 // Redirect admin to dashboard
-                header('Location: index.php?status=success-logged-in=admin');
+                header('Location: adminDashboard.php?status=success-logged-in=admin');
             } else {
                 // Store restaurant-specific information in session for owners
                 $restaurant_id = $row['restaurant_id'];

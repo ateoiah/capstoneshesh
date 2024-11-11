@@ -13,7 +13,7 @@
 
      <!-- Nav Item - Dashboard -->
      <li class="nav-item active">
-       <a class="nav-link" href="index.php">
+       <a class="nav-link" href="adminDashboard.php">
          <img src="icons\history.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
          <span>Dashboard</span></a>
      </li>

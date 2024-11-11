@@ -76,5 +76,4 @@ if ($result->num_rows > 0) {
 
 <?php
 include('includes/scripts.php');
-include('includes/footer.php');
 ?>

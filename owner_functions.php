@@ -30,7 +30,7 @@ if (isset($_POST['updateMenu'])) {
     } else {
         $_SESSION['status'] = "Failed to update menu!";
     }
-    header('Location: owner_menu.php');
+    header('Location: restaurantMenu.php');
     exit();
 }
 
@@ -44,7 +44,7 @@ if (isset($_POST['deleteMenu'])) {
     } else {
         $_SESSION['status'] = "<h5>YOUR DATA IS NOT DELETED</h5>";
     }
-    header('Location: owner_menu.php?admin_data=successfully-deleted-admin-removed');
+    header('Location: restaurantMenu.php?admin_data=successfully-deleted-admin-removed');
     exit();
 }
 
@@ -76,7 +76,7 @@ if (isset($_POST['addmenubtn'])) {
 
         if (mysqli_stmt_execute($stmt)) {
             $_SESSION['success'] = "<h4>NEW MENU ADDED</h4>";
-            header('Location: owner_menu.php');
+            header('Location: restaurantMenu.php');
             exit();
         } else {
             $_SESSION['error'] = "Failed to add the new menu item. Please try again.";
@@ -113,7 +113,7 @@ if (isset($_POST['completeReservation'])) {
         }
         mysqli_stmt_close($stmt);
     }
-    header('Location: owner_reservation.php');
+    header('Location: restaurantReservation.php');
     exit();
 }
 
@@ -143,6 +143,6 @@ if (isset($_POST['approveReservation'])) {
         }
         mysqli_stmt_close($stmt);
     }
-    header('Location: owner_reservation.php');
+    header('Location: restaurantReservation.php');
     exit();
 }

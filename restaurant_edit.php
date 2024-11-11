@@ -11,8 +11,8 @@ include('includes/navbar.php');
 
   <div class="card-body">
     <?php
-    if (isset($_POST['edit_btn1'])) {
-      $id = $_POST['edit_id1'];
+    if (isset($_POST['editrestaurant'])) {
+      $id = $_POST['restaurantId'];
 
       $query = "SELECT * FROM restauranttb WHERE restaurant_id = '$id'";
       $query_run = mysqli_query($connection, $query);
@@ -30,14 +30,24 @@ include('includes/navbar.php');
               placeholder="Enter Username" required>
           </div>
           <div class="form-group">
+            <label>Owner</label>
+            <input type="text" name="edit_owner" value="<?php echo $row['restaurant_owner'] ?>" class="form-control"
+              placeholder="Enter Address" required>
+          </div>
+          <div class="form-group">
             <label>Address</label>
-            <input type="text" name="edit_address" value="<?php echo $row['address'] ?>" class="form-control"
+            <input type="text" name="edit_address" value="<?php echo $row['restaurant_address'] ?>" class="form-control"
+              placeholder="Enter Address" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="text" name="edit_email" value="<?php echo $row['restaurant_email'] ?>" class="form-control"
               placeholder="Enter Address" required>
           </div>
           <div class="form-group">
             <label>Contact Number</label>
             <input type="text" name="edit_contact" class="form-control" placeholder="Enter Contact Number"
-              value="<?php echo $row['contactnumber'] ?>" required pattern="^[0-9]{10,15}$" title="Please enter a valid contact number (10 to 15 digits)">
+              value="<?php echo $row['restaurant_phoneNumber'] ?>" required pattern="^[0-9]{10,15}$" title="Please enter a valid contact number (10 to 15 digits)">
           </div>
 
           <a href="javascript:history.back()" class="btn btn-danger">CANCEL</a>
@@ -58,5 +68,4 @@ include('includes/navbar.php');
 </div>
 <?php
 include('includes/scripts.php');
-include('includes/footer.php');
 ?>

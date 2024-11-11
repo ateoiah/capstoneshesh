@@ -10,7 +10,7 @@ include('includes/owner_navbar.php');
   <div class="card shadow mb-0">
     <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary">Menu Data
-        <a href="owner_addmenu.php" class="btn btn-primary">Add Menu</a>
+        <a href="restaurantAddMenu.php" class="btn btn-primary">Add Menu</a>
       </h6>
     </div>
   </div>

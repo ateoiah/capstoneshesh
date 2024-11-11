@@ -11,7 +11,7 @@ include('includes/navbar.php');
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
       <h6 class="m-0 font-weight-bold text-primary">
         Restaurants Data
-        <a href="add_admin.php" class="btn btn-primary ml-2">
+        <a href="restaurant_add.php" class="btn btn-primary ml-2">
           Add Restaurant
         </a>
       </h6>
@@ -103,7 +103,7 @@ if ($result->num_rows > 0) {
             </td>
             <td>
               <!-- Edit Button -->
-              <form action='edit_restaurant.php' method='post' style='display:inline;'>
+              <form action='restaurant_edit.php' method='post' style='display:inline;'>
                 <input type='hidden' name='restaurantId' value='<?php echo $restaurant['id']; ?>'>
                 <button type='submit' name='editrestaurant' class='btn btn-success btn-sm' onclick='return confirm("Are you sure you want to edit this item?")'>Edit</button>
               </form>

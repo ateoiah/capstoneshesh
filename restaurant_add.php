@@ -49,7 +49,7 @@ if (isset($_SESSION['form_data'])) {
                 </div>
             <?php endif; ?>
 
-            <form action="restaurant_functions.php" method="POST" onsubmit="return confirmSubmit()">
+            <form action="restaurant_functions.php" method="POST" enctype="multipart/form-data" onsubmit="return confirmSubmit() ">
 
                 <div class="form-group">
                     <label> Restaurant Name </label>
