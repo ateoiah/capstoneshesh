@@ -16,31 +16,31 @@
      <!-- Navigation -->
      <ul class="navbar-nav">
        <li class="nav-item">
-         <a class="nav-link" href="owner_dashboard.php">
+         <a class="nav-link" href="restaurantDashboard.php">
            <img src="icons\data-analysis.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
            <span>Dashboard</span>
          </a>
        </li>
        <li class="nav-item">
-         <a class="nav-link" href="owner_menu.php">
+         <a class="nav-link" href="restaurantMenu.php">
            <img src="icons\fast-food.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
            <span>Menu</span>
          </a>
        </li>
        <li class="nav-item">
-         <a class="nav-link" href="owner_reservation.php">
+         <a class="nav-link" href="restaurantReservation.php">
            <img src="icons\booking.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
            <span>Reservations</span>
          </a>
        </li>
        <li class="nav-item">
-         <a class="nav-link" href="owner_order.php">
+         <a class="nav-link" href="restaurantOrder.php">
            <img src="icons\order.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
            <span>Orders</span>
          </a>
        </li>
        <li class="nav-item">
-         <a class="nav-link" href="owner_history.php">
+         <a class="nav-link" href="restaurantHistory.php">
            <img src="icons\history.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
            <span>History</span>
          </a>

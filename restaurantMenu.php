@@ -9,7 +9,7 @@ include('includes/owner_navbar.php');
 <div class="container-fluid">
   <div class="card shadow mb-0">
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Menus Data
+      <h6 class="m-0 font-weight-bold text-primary">Menu Data
         <a href="owner_addmenu.php" class="btn btn-primary">Add Menu</a>
       </h6>
     </div>
@@ -130,7 +130,7 @@ if ($result->num_rows > 0) {
                     <?php endif; ?>
                   </td>
                   <td>
-                    <form action="owner_menuEdit.php" method="post" style="display:inline;">
+                    <form action="restaurantMenuEdit.php" method="post" style="display:inline;">
                       <input type="hidden" name="menuId" value="<?= $item['id'] ?>">
                       <button type="submit" name="editMenu" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to edit this item?')">Edit</button>
                     </form>

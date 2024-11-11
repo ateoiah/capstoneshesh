@@ -76,6 +76,8 @@ if (isset($_POST['addmenubtn'])) {
 
         if (mysqli_stmt_execute($stmt)) {
             $_SESSION['success'] = "<h4>NEW MENU ADDED</h4>";
+            header('Location: owner_menu.php');
+            exit();
         } else {
             $_SESSION['error'] = "Failed to add the new menu item. Please try again.";
         }
@@ -106,6 +108,36 @@ if (isset($_POST['completeReservation'])) {
 
         if (mysqli_stmt_execute($stmt)) {
             $_SESSION['success'] = "<h6>Reservation Completed Successfully</h6>";
+        } else {
+            $_SESSION['error'] = "<h6>Failed to complete the reservation. Please try again.</h6>";
+        }
+        mysqli_stmt_close($stmt);
+    }
+    header('Location: owner_reservation.php');
+    exit();
+}
+
+//Handle approving reservation
+if (isset($_POST['approveReservation'])) {
+    $reservation_id = $_POST['reservationId'];
+
+    // Check if the reservation exists
+    $check_reservation_query = "SELECT * FROM reservationtb WHERE reservationId = ?";
+    $stmt = mysqli_prepare($connection, $check_reservation_query);
+    mysqli_stmt_bind_param($stmt, 'i', $reservation_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if (mysqli_num_rows($result) == 0) {
+        $_SESSION['error'] = "The reservation does not exist.";
+    } else {
+        // Update reservation status
+        $query = "UPDATE reservationtb SET statusId = 4 WHERE reservationId = ?";
+        $stmt = mysqli_prepare($connection, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $reservation_id);
+
+        if (mysqli_stmt_execute($stmt)) {
+            $_SESSION['success'] = "<h6>Reservation Approved Successfully</h6>";
         } else {
             $_SESSION['error'] = "<h6>Failed to complete the reservation. Please try again.</h6>";
         }

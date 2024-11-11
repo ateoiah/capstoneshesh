@@ -14,33 +14,26 @@
      <!-- Nav Item - Dashboard -->
      <li class="nav-item active">
        <a class="nav-link" href="index.php">
-         <img src="icons\data-analysis.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
+         <img src="icons\history.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
          <span>Dashboard</span></a>
      </li>
 
      <li class="nav-item">
        <a class="nav-link" href="admin.php">
-         <i class="fas fa-fw fa-chart-area"></i>
+         <img src="icons\manager.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
          <span>Admin</span></a>
      </li>
      <li class="nav-item">
        <a class="nav-link" href="Customer.php">
-         <i class="fas fa-fw fa-chart-area"></i>
+         <img src="icons\customer.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
          <span>Customer</span></a>
      </li>
 
      <li class="nav-item">
        <a class="nav-link" href="Restaurant.php">
-         <i class="fas fa-fw fa-chart-area"></i>
+         <img src="icons\restaurant.png" alt="Dashboard Icon" style="width: 20px; height: 20px; vertical-align: middle;">
          <span>Restaurant</span></a>
      </li>
-
-     <li class="nav-item">
-       <a class="nav-link" href="#">
-         <i class="fas fa-fw fa-chart-area"></i>
-         <span>About</span></a>
-     </li>
-
      <!-- Sidebar Toggler (Sidebar) -->
      <div class="text-center d-none d-md-inline">
        <button class="rounded-circle border-0" id="sidebarToggle"></button>

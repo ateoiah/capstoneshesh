@@ -4,115 +4,88 @@ include('Security.php');
 include('includes/header.php');
 include('includes/navbar.php');
 
+// Query to retrieve all restaurant names with reservation counts, including those with zero reservations
+$query = "SELECT restauranttb.restaurant_name, COUNT(reservationtb.reservationId) AS total_reservations
+          FROM restauranttb
+          LEFT JOIN reservationtb ON reservationtb.restaurantId = restauranttb.restaurant_id
+          GROUP BY restauranttb.restaurant_id";
+
+$result = $connection->query($query);
+
+$restaurantNames = [];
+$totalReservations = [];
+
+while ($row = $result->fetch_assoc()) {
+    $restaurantNames[] = $row['restaurant_name'];
+    $totalReservations[] = $row['total_reservations'] ?: 0; // Set to 0 if there are no reservations
+}
+
+$connection->close();
 ?>
 
-<div class="container-fluid">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-    </div>
-    <div class="row">
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card bg-primary text-white shadow">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Registered Admin</div>
-                            <?php
-                            if ($connection->connect_error) {
-                                die("Failed" . $connection->connect_error . $connection->connect_error);
-                            }
-                            $query = "SELECT COUNT(admin_id) AS total_admin FROM admintb";
-                            $result = $connection->query($query);
-                            if ($result->num_rows > 0) {
-                                $row = $result->fetch_assoc();
-                                $totaladmin = $row["total_admin"];
-                                echo "<h4><strong>$totaladmin</strong></h4>";
-                            }
-                            ?>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-users fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- HTML to display the bar chart -->
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title text-center">Total Reservations per Restaurant</h5>
         </div>
-
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card bg-info text-white shadow">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Registered Customer</div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <?php
-                                    if ($connection->connect_error) {
-                                        die("Failed" . $connection->connect_error . $connection->connect_error);
-                                    }
-                                    $query = "SELECT COUNT(customerid) AS total_customer FROM customertb";
-                                    $result = $connection->query($query);
-                                    if ($result->num_rows > 0) {
-                                        $row = $result->fetch_assoc();
-                                        $totalcustomer = $row["total_customer"];
-                                        echo "<h4><strong>$totalcustomer</strong></h4>";
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-users fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="card-body">
+            <canvas id="reservationChart"></canvas>
         </div>
-
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card bg-success text-white shadow">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Total Registered Restaurant</div>
-                            <?php
-                            if ($connection->connect_error) {
-                                die("Failed" . $connection->connect_error . $connection->connect_error);
-                            }
-                            $query = "SELECT COUNT(restaurant_id) AS total_restaurant FROM restauranttb";
-                            $result = $connection->query($query);
-                            if ($result->num_rows > 0) {
-                                $row = $result->fetch_assoc();
-                                $totalproduct = $row["total_restaurant"];
-                                echo "<h4><strong>$totalproduct</strong></h4>";
-                            }
-                            ?>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-shopping-basket fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card bg-warning text-white shadow">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                          <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Pending Orders</div>
-                            <?php echo "<h4><strong>21</strong></h4>" ?>
-                          </div>
-                          <div class="col-auto">
-                            <i class="fas fa-hourglass-half fa-2x"></i>
-                          </div>
-                    </div>
-                </div>
-            </div> -->
     </div>
 </div>
-</div>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Get data from PHP
+    const restaurantNames = <?php echo json_encode($restaurantNames); ?>;
+    const totalReservations = <?php echo json_encode($totalReservations); ?>;
+
+    // Create the bar chart
+    const ctx = document.getElementById('reservationChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: restaurantNames,
+            datasets: [{
+                label: 'Total Reservations',
+                data: totalReservations,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false // Hide the legend with color box
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1 // Ensure whole numbers on y-axis
+                    },
+                    title: {
+                        display: true,
+                        text: 'Reservations'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Restaurant Names'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+
 <?php
 include('includes/scripts.php');
-include('includes/footer.php');
 ?>

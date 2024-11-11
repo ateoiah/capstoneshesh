@@ -21,9 +21,9 @@ if (isset($_SESSION['error'])) {
 
 // Check if form values are set in the session
 if (isset($_SESSION['form_data'])) {
-    $itemname = $_SESSION['form_data']['item_name'];
-    $price = $_SESSION['form_data']['price'];
-    $description = $_SESSION['form_data']['description'];
+    $itemname = $_SESSION['form_data']['menu_name'];
+    $price = $_SESSION['form_data']['menu_price'];
+    $description = $_SESSION['form_data']['menu_description'];
 
     unset($_SESSION['form_data']); // Clear form data after using
 }

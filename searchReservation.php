@@ -10,10 +10,7 @@ include('includes/owner_navbar.php');
     <div class="card shadow mb-0">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">
-                reservations Data
-                <a href="add_reservation.php" class="btn btn-primary ml-2">
-                    Add reservation
-                </a>
+                Reservations Data
             </h6>
             <form class="form-inline my-2 my-md-0 mw-100 navbar-search" action="searchreservation.php" method="GET">
                 <div class="input-group">
@@ -49,7 +46,7 @@ JOIN
 WHERE 
     r.reservationId LIKE '%$search%' 
 AND 
-    s.statusName = 'Pending'";
+    s.statusName = 'Approved'";
 
 
 

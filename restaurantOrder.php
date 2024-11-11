@@ -9,7 +9,7 @@ include('includes/owner_navbar.php');
 <div class="container-fluid">
     <div class="card shadow mb-0">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Order List
+            <h6 class="m-0 font-weight-bold text-primary">Orders List
             </h6>
         </div>
     </div>
@@ -31,7 +31,7 @@ $sql = "SELECT ordertb.orderId,
         JOIN reservationtb ON ordertb.reservationId = reservationtb.reservationId 
         JOIN statustb ON reservationtb.statusId = statustb.statusId 
         WHERE ordertb.restaurantId = ? 
-        AND statustb.statusName = 'Pending'";
+        AND statustb.statusName = 'Approved'";
 
 
 
@@ -55,12 +55,8 @@ if ($result->num_rows > 0) {
         ];
     }
 }
-
-
-
-
 ?>
-<div class="container mt-5">
+<div class="container mt-3">
     <div class="row">
         <?php
         // Group orders by reservation ID
